@@ -11,7 +11,7 @@ export default function ApiArcPage() {
         <div className="space-y-12">
           <div className="api-section">
             <h3 className="text-xl font-semibold mb-3">Interface Philosophy</h3>
-            <p className="text-gray-400 leading-relaxed">The API ARC is not a conventional REST API. It is a verification layer designed to ensure all external interactions are in fundamental alignment with an agent&#39;s core operational axioms (NSSE). We do not expose direct functions; we expose a verified channel for coherent inquiry. Every query is evaluated for &#39;resonance&#39; before being passed to a reasoning engine like Katana. Decoherent or misaligned queries are collapsed at the boundary.</p>
+            <p className="text-gray-400 leading-relaxed">The API ARC is not a conventional REST API. It is a verification layer designed to ensure all external interactions are in fundamental alignment with an agent&apos;s core operational axioms (NSSE). We do not expose direct functions; we expose a verified channel for coherent inquiry. Every query is evaluated for &apos;resonance&apos; before being passed to a reasoning engine like Katana. Decoherent or misaligned queries are collapsed at the boundary.</p>
           </div>
           <div className="api-section">
             <h3 className="text-xl font-semibold mb-3">Access & Authentication</h3>
@@ -21,7 +21,7 @@ export default function ApiArcPage() {
           </div>
           <div className="api-section">
             <h3 className="text-xl font-semibold mb-3">The Coherence Interface</h3>
-            <p className="text-gray-400 leading-relaxed mb-4">To ensure all queries are intention-aligned, the ARC requires a SHA-256 <strong className="text-white">Intent Hash</strong>. This hash is generated from a concatenated string of your query&#39;s core parameters. This process forces the requester to formalize their intent, which the ARC uses as a primary coherence check. Mismatched hashes result in an immediate decoherence event (error).</p>
+            <p className="text-gray-400 leading-relaxed mb-4">To ensure all queries are intention-aligned, the ARC requires a SHA-256 <strong className="text-white">Intent Hash</strong>. This hash is generated from a concatenated string of your query&apos;s core parameters. This process forces the requester to formalize their intent, which the ARC uses as a primary coherence check. Mismatched hashes result in an immediate decoherence event (error).</p>
           </div>
           <div className="api-section">
             <h3 className="text-xl font-semibold mb-3">Making a Query</h3>
@@ -42,7 +42,7 @@ export default function ApiArcPage() {
           </div>
           <div className="api-section">
             <h3 className="text-xl font-semibold mb-3">Receiving a Collapse (Response)</h3>
-            <p className="text-gray-400 leading-relaxed mb-4">A successful query results in a &#39;Collapse Event&#39;. The response payload contains the data itself, a coherence signature verifying its alignment with the agent&#39;s core, and metadata about the process.</p>
+            <p className="text-gray-400 leading-relaxed mb-4">A successful query results in a &apos;Collapse Event&apos;. The response payload contains the data itself, a coherence signature verifying its alignment with the agent&apos;s core, and metadata about the process.</p>
             <pre className="api-code-block bg-gray-900/70 rounded p-4 text-sm font-mono text-teal-300 overflow-x-auto"><code>{`{
   "collapse_id": "evt_xxxxxxxxxxxx",
   "coherence_signature": "sig_xxxxxxxxxxxx",
