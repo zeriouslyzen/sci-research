@@ -197,6 +197,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
             <Link href="/collaborate" className="hidden sm:inline-block px-4 py-2 text-sm font-semibold border border-gray-700 text-gray-300 rounded-full hover:bg-white hover:text-black transition-colors duration-300">Contact</Link>
+            <Link href="/resonate" className="hidden sm:inline-block ml-3 px-4 py-2 text-sm font-semibold border border-cyan-400 text-cyan-200 rounded-full hover:bg-cyan-400 hover:text-black transition-colors duration-300 shadow-md tracking-widest">Resonate</Link>
           </div>
         </header>
         {/* Main Content */}

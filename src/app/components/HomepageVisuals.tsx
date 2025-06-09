@@ -10,7 +10,8 @@ export default function HomepageVisuals() {
     const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({ alpha: true });
     let animationId: number;
-    let mouseX = 0, mouseY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
     const windowHalfX = window.innerWidth / 2;
     const windowHalfY = window.innerHeight / 2;
     const shardData = [
