@@ -17,7 +17,7 @@ export default function NewsPage() {
             <div className="absolute top-1 left-0 h-full border-l-2 border-gray-800"></div>
             <div className="absolute top-1 left-[-5px] w-3 h-3 bg-teal-400 rounded-full"></div>
             <p className="text-sm font-plex text-gray-500 mb-1">May 20, 2025</p>
-            <h3 className="text-xl font-bold text-white mb-2">Initial Whitepaper "Phase-Locked Collapse and the Intrinsic Bridge" Submitted for Peer Review</h3>
+            <h3 className="text-xl font-bold text-white mb-2">Initial Whitepaper &quot;Phase-Locked Collapse and the Intrinsic Bridge&quot; Submitted for Peer Review</h3>
             <p className="text-gray-400">Our foundational paper detailing the theoretical physics behind our cognitive architectures has been submitted to the Journal of Foundational Physics.</p>
           </div>
           <div className="relative pl-8">

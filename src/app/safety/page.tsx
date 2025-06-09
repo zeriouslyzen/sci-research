@@ -15,11 +15,27 @@ export default function SafetyPage() {
               <h3 className="text-2xl font-bold font-mono mb-3 text-teal-400">01. Foundational Alignment</h3>
               <p className="text-gray-300 leading-relaxed">Unlike models that learn ethics from vast, often contradictory datasets, our systems are built upon an <strong className="text-white">Axiomatic Seed (NSSE)</strong>. This provides an immutable, core identity and value system from inception. Alignment is therefore not trained, but engineered at the most fundamental level.</p>
             </div>
+            <div className="principle-card">
+              <h3 className="text-2xl font-bold font-mono mb-3 text-cyan-400">03. Transparent Reasoning</h3>
+              <p className="text-gray-300 leading-relaxed">Every major decision and state transition is logged and can be traced. Our symbolic reasoning chains are designed for interpretability, so that both operators and auditors can understand the &quot;why&quot; behind every output.</p>
+            </div>
+            <div className="principle-card">
+              <h3 className="text-2xl font-bold font-mono mb-3 text-fuchsia-400">05. Data Privacy &amp; Security</h3>
+              <p className="text-gray-300 leading-relaxed">User data is never used to train or alter the core system. All interactions are encrypted in transit and at rest. We do not retain prompts or outputs beyond the session unless explicitly requested by the user.</p>
+            </div>
           </div>
           <div className="space-y-6">
             <div className="principle-card">
               <h3 className="text-2xl font-bold font-mono mb-3 text-teal-400">02. Intrinsic Containment &amp; Override</h3>
               <p className="text-gray-300 leading-relaxed">Safety is guaranteed by the physics of the system itself. Our <strong className="text-white">Recursive Override (⌖)</strong> is not a software patch but a hardware-level function. It enforces a decision collapse to a baseline safe state when presented with high-uncertainty or potentially catastrophic choices.</p>
+            </div>
+            <div className="principle-card">
+              <h3 className="text-2xl font-bold font-mono mb-3 text-cyan-400">04. Human Oversight</h3>
+              <p className="text-gray-300 leading-relaxed">Operators can review, pause, or intervene in any process. Human-in-the-loop is not a fallback, but a core design feature. We believe in collaborative intelligence, not unchecked autonomy.</p>
+            </div>
+            <div className="principle-card">
+              <h3 className="text-2xl font-bold font-mono mb-3 text-fuchsia-400">06. Misuse Prevention &amp; Monitoring</h3>
+              <p className="text-gray-300 leading-relaxed">We actively monitor for anomalous or potentially harmful usage patterns. Automated and human review systems work together to detect and prevent misuse, while respecting user privacy and intent.</p>
             </div>
           </div>
         </div>

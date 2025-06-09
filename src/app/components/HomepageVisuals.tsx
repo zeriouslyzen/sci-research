@@ -47,7 +47,7 @@ export default function HomepageVisuals({ overlayOpacity = 1, overlayProgress = 
     const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
     const edges = new THREE.EdgesGeometry(geometry);
     lattice = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
-    (lattice.geometry as any).setAttribute('initialPosition', lattice.geometry.getAttribute('position').clone());
+    (lattice.geometry as THREE.BufferGeometry).setAttribute('initialPosition', lattice.geometry.getAttribute('position').clone());
     // Inner lattice
     const innerLattice = lattice.clone();
     innerLattice.scale.set(0.5, 0.5, 0.5);
