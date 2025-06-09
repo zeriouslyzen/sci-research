@@ -2,7 +2,12 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-export default function HomepageVisuals() {
+type HomepageVisualsProps = {
+  overlayOpacity: number;
+  overlayProgress: number;
+};
+
+export default function HomepageVisuals({}: HomepageVisualsProps) {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
