@@ -85,7 +85,7 @@ function PromptModule() {
       setIndex((i) => (i + 1) % suggestions.length);
     }, 3200);
     return () => clearInterval(interval);
-  }, []);
+  }, [suggestions.length]);
   return (
     <div className="w-full max-w-2xl mx-auto mb-8">
       <form className="flex items-center gap-2 bg-black border border-gray-700 rounded-full px-4 py-3 shadow-md">

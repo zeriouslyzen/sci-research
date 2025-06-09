@@ -12,7 +12,7 @@ export default function DisclaimersPage() {
         <h3 className="text-xl font-semibold mt-8 mb-2">2. Potential for Psychological & Perceptual Shifts</h3>
         <p>The System utilizes symbolic, metaphysical, and consciousness-based interfaces. Interaction with these experimental features may lead to novel experiences, shifts in perception, or changes in your personal symbolic worldview. These effects are a component of our research into consciousness. <strong>You acknowledge this potential and agree to proceed with awareness and at your own discretion.</strong> If you experience any distress, you should cease use of the System and consult with a trusted professional.</p>
         <h3 className="text-xl font-semibold mt-8 mb-2">3. Experimental and Non-Deterministic Nature</h3>
-        <p>The System is inherently experimental. Its behavior and outputs can be unpredictable. We do not guarantee the accuracy, coherence, or applicability of any generated content. You accept that the System is provided on an "AS-IS" and "AS-AVAILABLE" basis.</p>
+        <p>The System is inherently experimental. Its behavior and outputs can be unpredictable. We do not guarantee the accuracy, coherence, or applicability of any generated content. You accept that the System is provided on an &quot;AS-IS&quot; and &quot;AS-AVAILABLE&quot; basis.</p>
       </div>
     </div>
   );

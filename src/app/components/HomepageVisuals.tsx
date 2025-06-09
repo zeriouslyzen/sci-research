@@ -2,13 +2,13 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-type HomepageVisualsProps = { overlayOpacity?: number; overlayProgress?: number };
-export default function HomepageVisuals({ overlayOpacity = 1, overlayProgress = 0 }: HomepageVisualsProps) {
+export default function HomepageVisuals() {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer;
-    let stars: THREE.Points, lattice: THREE.LineSegments;
+    const scene: THREE.Scene = new THREE.Scene();
+    const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+    const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({ alpha: true });
     let animationId: number;
     let mouseX = 0, mouseY = 0;
     const windowHalfX = window.innerWidth / 2;
@@ -25,10 +25,7 @@ export default function HomepageVisuals({ overlayOpacity = 1, overlayProgress = 
     if (!mountRef.current) return;
     const container = mountRef.current;
     // Set up scene
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.z = 5;
-    renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
@@ -40,13 +37,13 @@ export default function HomepageVisuals({ overlayOpacity = 1, overlayProgress = 
     }
     const starGeometry = new THREE.BufferGeometry();
     starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-    stars = new THREE.Points(starGeometry, new THREE.PointsMaterial({ color: 0x555555, size: 0.1 }));
+    const stars: THREE.Points = new THREE.Points(starGeometry, new THREE.PointsMaterial({ color: 0x555555, size: 0.1 }));
     scene.add(stars);
 
     // Lattice (outer cube)
     const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
     const edges = new THREE.EdgesGeometry(geometry);
-    lattice = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
+    const lattice: THREE.LineSegments = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
     (lattice.geometry as THREE.BufferGeometry).setAttribute('initialPosition', lattice.geometry.getAttribute('position').clone());
     // Inner lattice
     const innerLattice = lattice.clone();
@@ -92,7 +89,7 @@ export default function HomepageVisuals({ overlayOpacity = 1, overlayProgress = 
       shardLabels.forEach(label => { if(label.div) label.div.style.opacity = '1'; });
     }
     function toScreenPosition(worldPosition: THREE.Vector3, camera: THREE.Camera) {
-      var vector = worldPosition.clone(); vector.project(camera);
+      const vector = worldPosition.clone(); vector.project(camera);
       vector.x = (vector.x * window.innerWidth / 2) + window.innerWidth / 2;
       vector.y = -(vector.y * window.innerHeight / 2) + window.innerHeight / 2;
       return { x: vector.x, y: vector.y };
