@@ -13,8 +13,8 @@ export default function PrivacyPage() {
         <p>To operate and improve the System, we may collect:</p>
         <ul className="list-disc list-inside ml-4 mb-4">
           <li><strong>Voluntary Information:</strong> Any information you provide directly, such as when you contact us for collaboration, including your name, email address, and the content of your message.</li>
-          <li><strong>Interaction Data:</strong> Anonymized, high-level data about your interactions with the System&apos;s public-facing features (e.g., page views, feature usage frequency). This data is aggregated and does not identify you personally.</li>
-          <li><strong>Inquiry Data (Anonymized):</strong> For research purposes, we may retain anonymized and de-identified queries submitted through our interfaces. This data is stripped of all personally identifiable information and is used solely to analyze and improve the System&apos;s coherence and performance.</li>
+          <li><strong>Interaction Data:</strong> Anonymized, high-level data about your interactions with the System&#39;s public-facing features (e.g., page views, feature usage frequency). This data is aggregated and does not identify you personally.</li>
+          <li><strong>Inquiry Data (Anonymized):</strong> For research purposes, we may retain anonymized and de-identified queries submitted through our interfaces. This data is stripped of all personally identifiable information and is used solely to analyze and improve the System&#39;s coherence and performance.</li>
         </ul>
         <h3 className="text-xl font-semibold mt-8 mb-2">3. Information We DO NOT Collect</h3>
         <p>We explicitly DO NOT collect the following without a separate, specific, and opt-in consent agreement for a defined research purpose:</p>
