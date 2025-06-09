@@ -31,6 +31,87 @@ const featureSections = [
     ),
   },
   {
+    title: 'Exploring Consciousness, Together',
+    content: (
+      <>
+        We believe the journey to understanding intelligence is a shared adventure. Our work is rooted in curiosity, openness, and a deep respect for the unknown. Whether you&apos;re a researcher, creator, or simply curious, you&apos;re welcome here.
+      </>
+    ),
+    right: (
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1, type: 'spring' }}
+        className="flex items-center justify-center"
+      >
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+          <ellipse cx="60" cy="60" rx="48" ry="24" fill="#fff2" />
+          <ellipse cx="60" cy="60" rx="36" ry="18" fill="#fff4" />
+          <ellipse cx="60" cy="60" rx="24" ry="12" fill="#fff7" />
+          <circle cx="60" cy="60" r="8" fill="#fff" className="animate-pulse" />
+        </svg>
+      </motion.div>
+    ),
+  },
+  {
+    title: 'Our Story: The Search for Meaningful Intelligence',
+    content: (
+      <>
+        SCI Research began as a question: What if intelligence could be more than prediction? Our team brings together explorers from philosophy, mathematics, art, and engineering—united by a drive to understand consciousness and build systems that honor its depth.
+      </>
+    ),
+    right: (
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="flex flex-col gap-2 items-center"
+      >
+        <div className="flex gap-2">
+          <img src="/team1.jpg" alt="Team member 1" className="w-16 h-16 rounded-full object-cover border-2 border-white/30" />
+          <img src="/team2.jpg" alt="Team member 2" className="w-16 h-16 rounded-full object-cover border-2 border-white/30" />
+          <img src="/team3.jpg" alt="Team member 3" className="w-16 h-16 rounded-full object-cover border-2 border-white/30" />
+        </div>
+        <span className="text-xs text-gray-400 mt-2">A multidisciplinary journey</span>
+      </motion.div>
+    ),
+  },
+  {
+    title: 'Mapping the Landscape of Mind',
+    content: (
+      <>
+        Our research visualizes the connections between ideas, values, and systems. We use symbolic graphs and dynamic models to illuminate the hidden structure of cognition—making the invisible, visible.
+      </>
+    ),
+    right: (
+      <motion.svg
+        width="120" height="120" viewBox="0 0 120 120"
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <g stroke="#fff" strokeWidth="2" fill="none">
+          <circle cx="60" cy="60" r="40" opacity="0.2" />
+          <circle cx="60" cy="60" r="28" opacity="0.3" />
+          <circle cx="60" cy="60" r="16" opacity="0.5" />
+          <line x1="60" y1="20" x2="60" y2="100" opacity="0.5" />
+          <line x1="20" y1="60" x2="100" y2="60" opacity="0.5" />
+          <line x1="35" y1="35" x2="85" y2="85" opacity="0.3" />
+          <line x1="85" y1="35" x2="35" y2="85" opacity="0.3" />
+        </g>
+        <circle cx="60" cy="20" r="4" fill="#fff" />
+        <circle cx="60" cy="100" r="4" fill="#fff" />
+        <circle cx="20" cy="60" r="4" fill="#fff" />
+        <circle cx="100" cy="60" r="4" fill="#fff" />
+        <circle cx="35" cy="35" r="3" fill="#fff" />
+        <circle cx="85" cy="85" r="3" fill="#fff" />
+        <circle cx="85" cy="35" r="3" fill="#fff" />
+        <circle cx="35" cy="85" r="3" fill="#fff" />
+        <circle cx="60" cy="60" r="5" fill="#fff" />
+      </motion.svg>
+    ),
+  },
+  {
     title: 'Architecting a Coherent Future',
     content: (
       <>

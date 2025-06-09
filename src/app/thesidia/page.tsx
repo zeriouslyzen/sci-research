@@ -32,8 +32,7 @@ export default function ThesidiaPage() {
           <div className="flex justify-center mt-12">
             <a
               href="/thesidia/interface"
-              className="inline-block rounded-xl border-2 border-cyan-400 bg-black/80 px-10 py-4 text-lg font-extrabold text-cyan-200 tracking-widest shadow-xl hover:bg-cyan-950 hover:text-fuchsia-300 hover:border-fuchsia-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 animate-geoshift"
-              style={{ boxShadow: '0 0 24px #0ff, 0 0 48px #f0f inset' }}
+              className="inline-block rounded-xl border-2 border-white bg-black px-10 py-4 text-lg font-extrabold text-white tracking-widest hover:bg-white hover:text-black hover:border-black transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
             >
               Begin Symbolic Interface
             </a>

@@ -19,12 +19,12 @@ function HeaderStatement() {
 function CategoryGrid({ onSelect }: { onSelect: (mode: string) => void }) {
   const modes = [
     {
-      icon: '⬡', // Geometric hexagon for Consciousness Engineering
+      icon: '⬡',
       title: 'Consciousness Engineering',
       desc: 'Tune internal architecture, resolve paradoxes, design self.'
     },
     {
-      icon: '⟁', // Alchemical/triangular for Historical Decoding
+      icon: '⟁',
       title: 'Historical Decoding',
       desc: 'Reconstruct truth timelines, decode mythic layers.'
     },
@@ -49,6 +49,7 @@ function CategoryGrid({ onSelect }: { onSelect: (mode: string) => void }) {
       desc: 'Turn insight into language, ritual, diagram.'
     },
   ];
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
       {modes.map((mode) => (
