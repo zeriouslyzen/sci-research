@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 interface AccountPanelProps {
   user: {
@@ -13,7 +14,6 @@ interface AccountPanelProps {
     pulse?: 'online' | 'offline' | 'active';
   };
   onBack: () => void;
-  onSignOut: () => void;
 }
 
 const METRICS = [
@@ -73,18 +73,36 @@ const METRICS = [
   },
 ];
 
-const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack, onSignOut }) => {
+const BROADCAST_SLIDES = [
+  {
+    title: 'Consciousness Research: Nonlocal Correlates',
+    summary: 'A multi-university study finds statistically significant nonlocal correlations in meditative brain states, challenging classical models.',
+    image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
+    link: 'https://www.nature.com/articles/nonlocal-consciousness',
+  },
+  {
+    title: 'CERN Discovers Unusual Quantum Resonance',
+    summary: 'A new resonance pattern in the LHC data hints at unknown quantum structures, possibly related to consciousness field theory.',
+    image: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
+    link: 'https://home.cern/news/news/physics/new-quantum-resonance',
+  },
+  {
+    title: 'AI Ethics: The Paradox of Alignment',
+    summary: 'A new paper explores the limits of alignment in recursive AI systems, proposing a phase-based approach to value stability.',
+    image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
+    link: 'https://arxiv.org/abs/2505.12345',
+  },
+];
+
+const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack }) => {
   const [bio, setBio] = useState(user.bio || '');
   const [energy] = useState(user.energy ?? 76);
   const [pulse] = useState(user.pulse ?? 'active');
   const [followers] = useState(user.followers ?? 128);
   const [following] = useState(user.following ?? 87);
   const [activeMetric, setActiveMetric] = useState<string | null>(null);
-
-  // Placeholder for save action
-  const handleSave = () => {
-    alert('Profile saved!');
-  };
+  const [broadcastIndex, setBroadcastIndex] = useState(0);
+  const broadcast = BROADCAST_SLIDES[broadcastIndex];
 
   // Pulse color
   const pulseColor = pulse === 'online' ? 'bg-green-400' : pulse === 'active' ? 'bg-blue-400' : 'bg-gray-500';
@@ -93,10 +111,40 @@ const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack, onSignOut }) 
     <div className="flex flex-col h-full justify-between p-4 bg-black animate-fadein">
       <button onClick={onBack} className="mb-4 text-white text-sm font-mono self-start">← Back</button>
       <div className="flex flex-col items-center gap-4 mt-2 w-full">
+        {/* Broadcast Widget (Slider) */}
+        <div className="w-full mb-3 rounded-2xl overflow-hidden bg-black/90 border border-cyan-900 shadow-lg flex flex-col relative">
+          <div className="relative h-20 w-full overflow-hidden">
+            <img src={broadcast.image} alt={broadcast.title} className="object-cover w-full h-full" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            {/* Left arrow */}
+            <button
+              className="absolute left-1 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-cyan-900/80 focus:outline-none"
+              onClick={e => { e.stopPropagation(); setBroadcastIndex((broadcastIndex - 1 + BROADCAST_SLIDES.length) % BROADCAST_SLIDES.length); }}
+              aria-label="Previous broadcast"
+              tabIndex={0}
+            >
+              &#8592;
+            </button>
+            {/* Right arrow */}
+            <button
+              className="absolute right-1 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-cyan-900/80 focus:outline-none"
+              onClick={e => { e.stopPropagation(); setBroadcastIndex((broadcastIndex + 1) % BROADCAST_SLIDES.length); }}
+              aria-label="Next broadcast"
+              tabIndex={0}
+            >
+              &#8594;
+            </button>
+          </div>
+          <div className="flex-1 flex flex-col p-3">
+            <h3 className="text-base font-bold text-white mb-1">{broadcast.title}</h3>
+            <p className="text-gray-300 text-xs mb-1 flex-1">{broadcast.summary}</p>
+            <a href={broadcast.link} target="_blank" rel="noopener noreferrer" className="text-xs text-cyan-400 font-mono hover:underline">Read Article</a>
+          </div>
+        </div>
         {/* Social/energy row */}
         <div className="flex flex-col items-center w-full mb-2">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-white font-mono text-base font-bold">@{user.username}</span>
+            <span className="text-white font-mono text-base font-bold">Δcaptainjack</span>
             <span className={`w-2 h-2 rounded-full ${pulseColor} inline-block`} title={`Pulse: ${pulse}`}></span>
             <span className="text-xs text-gray-400 ml-1">{pulse.charAt(0).toUpperCase() + pulse.slice(1)}</span>
           </div>
@@ -147,10 +195,13 @@ const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack, onSignOut }) 
           rows={2}
           maxLength={120}
         />
-        <button onClick={handleSave} className="w-full mt-2 py-1 rounded bg-white text-black font-bold text-sm">Save</button>
-      </div>
-      <div className="flex flex-col gap-2 mt-8">
-        <button onClick={onSignOut} className="w-full py-2 rounded bg-gray-800 text-white font-semibold">Sign Out</button>
+        <div className="flex flex-col gap-2 mt-8">
+          {/* Codex and Settings buttons */}
+          <div className="flex flex-row gap-3 justify-center w-full mt-4">
+            <Link href="/codex" className="flex-1 py-2 rounded bg-gray-900 text-white font-semibold hover:bg-gray-700 transition text-center">Codex</Link>
+            <button className="flex-1 py-2 rounded bg-gray-900 text-white font-semibold hover:bg-gray-700 transition">Settings</button>
+          </div>
+        </div>
       </div>
     </div>
   );
