@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 // import AnimatedCube from './components/AnimatedCube';
 
 // Symbolic context for mode/intent
-const SymbolicContext = createContext<any>(null);
+const SymbolicContext = createContext<unknown>(null);
 export function useSymbolicContext() {
   return useContext(SymbolicContext);
 }
@@ -281,7 +281,6 @@ function VerticalSlider() {
 
 export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const [heroScrollProgress, setHeroScrollProgress] = useState(0); // 0 to 1
   const [scrollLocked, setScrollLocked] = useState(true);
 
   // Symbolic onboarding state
@@ -303,23 +302,13 @@ export default function HomePage() {
     let lastY = 0;
     function onWheel(e: WheelEvent) {
       e.preventDefault();
-      setHeroScrollProgress(prev => {
-        let next = prev + e.deltaY / 600;
-        next = Math.max(0, Math.min(1, next));
-        if (next >= 1) setScrollLocked(false);
-        return next;
-      });
+      setScrollLocked(false); // Unlock scroll immediately on wheel
     }
     function onTouchMove(e: TouchEvent) {
       if (e.touches.length < 1) return;
       const y = e.touches[0].clientY;
       if (lastY !== 0) {
-        setHeroScrollProgress(prev => {
-          let next = prev + (lastY - y) / 600;
-          next = Math.max(0, Math.min(1, next));
-          if (next >= 1) setScrollLocked(false);
-          return next;
-        });
+        setScrollLocked(false); // Unlock scroll immediately on touch
       }
       lastY = y;
     }
