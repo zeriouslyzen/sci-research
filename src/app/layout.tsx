@@ -135,12 +135,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[#0A0A0A] text-[#E0E0E0] font-sans min-h-screen antialiased">
         {/* Slide-in Side Menu */}
         <aside
-          className={`fixed left-0 top-20 mt-0 h-[calc(100vh-5rem)] w-36 md:w-44 p-1 z-50 bg-black border-r border-white/10 rounded-b-2xl transition-transform duration-300 ease-in-out
+          className={`fixed left-0 top-0 h-screen w-36 md:w-44 p-1 z-40 bg-black border-r border-white/10 transition-transform duration-300 ease-in-out
             ${sidebarOpen ? 'translate-x-0 block' : '-translate-x-full hidden'} md:block`}
+          style={{ marginTop: '3.5rem' }}
         >
           {/* Sidebar toggle button */}
           <button
-            className="absolute top-6 right-3 text-yellow-400 hover:text-white bg-transparent rounded-full p-1.5 z-50 focus:outline-none"
+            className="absolute top-2 right-3 text-yellow-400 hover:text-white bg-transparent rounded-full p-1.5 z-50 focus:outline-none"
             onClick={() => setSidebarOpen(false)}
             aria-label="Hide menu"
           >
@@ -159,8 +160,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </svg>
             </span>
           </button>
-          <nav>
-            <ul className="space-y-1 font-mono text-base mt-8">
+          <nav className="mt-4">
+            <ul className="space-y-1 font-mono text-base">
               <li><Link href="/" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Home</Link></li>
               <li><Link href="/mission" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Mission</Link></li>
               <li><Link href="/research" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Research</Link></li>
@@ -176,18 +177,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <li><Link href="/api_arc" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>API ARC</Link></li>
               <li><Link href="/safety" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Safety</Link></li>
               <li><Link href="/news" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>News</Link></li>
-              <li><Link href="/collaborate" className="block pt-6 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Collaborate</Link></li>
+              <li className="pt-2"><span className="text-xs text-gray-500">SYMBOLIC NETWORK</span></li>
+              <li><button onClick={() => setSidebarView('account')} className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">My Space</button></li>
+              <li><Link href="/visions" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Visions</Link></li>
+              <li><Link href="/codex" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Codex</Link></li>
             </ul>
           </nav>
-          {/* Modular bottom section */}
-          <div className="absolute bottom-0 left-0 w-full flex flex-col gap-1 p-2 border-t border-white/10 bg-black/90 z-10">
-            <button onClick={() => setSidebarView('account')} className="flex items-center gap-2 py-1 px-2 rounded hover:bg-cyan-900/40 transition text-white font-mono text-sm">
-              <span>My Space</span>
-            </button>
-            <Link href="/visions" className="flex items-center gap-2 py-1 px-2 rounded hover:bg-cyan-900/40 transition text-cyan-400 font-mono text-sm">
-              <span>Visions</span>
-            </Link>
-          </div>
         </aside>
         {/* Sidebar slide panels */}
         <AnimatePresence>
@@ -243,39 +238,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </button>
         )}
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-30 bg-transparent">
-          <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              {/* Hamburger for mobile (hidden if sidebar is open on desktop) */}
-              <button
-                className="md:hidden text-cyan-400 focus:outline-none px-2 bg-transparent"
-                onClick={() => setSidebarOpen((open) => !open)}
-                aria-label="Open menu"
-              >
-                <span className="w-7 h-7 flex items-center justify-center">
-                  {/* Removed animated triangle SVG */}
-                </span>
-              </button>
-              {/* Remove the animated geometric SVG icon here */}
+        <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-white/10">
+          <div className="px-4 py-2 flex items-center justify-between gap-4">
+            <div className="flex items-center">
               <div className="flex flex-col items-start">
-                <span className="text-white font-extrabold text-3xl tracking-widest font-[Share Tech Mono,monospace] animate-glow leading-tight">SCI</span>
-                <span className="text-white text-sm font-[Share Tech Mono,monospace] tracking-widest animate-glow leading-tight mt-1">Research</span>
+                <span className="text-white font-extrabold text-2xl tracking-widest font-[Share Tech Mono,monospace] animate-glow leading-tight">SCI</span>
+                <span className="text-white text-xs font-[Share Tech Mono,monospace] tracking-widest animate-glow leading-tight">Research</span>
               </div>
             </div>
-            <div className="flex-1 flex justify-center px-2">
-              <div className="w-full max-w-md">
-                <form className="relative rounded-full">
-                  <input type="text" placeholder="Initiate Inquiry..." className="w-full bg-transparent py-2 pl-5 pr-10 text-white font-mono text-sm focus:outline-none border-b border-gray-700" />
-                  <span className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 font-bold">⌖</span>
-                </form>
-              </div>
+            <div className="flex-1 flex justify-center px-2 max-w-md mx-auto">
+              <form className="relative w-full">
+                <input 
+                  type="text" 
+                  placeholder="Initiate Inquiry..." 
+                  className="w-full bg-black/50 py-1.5 pl-4 pr-10 text-white font-mono text-sm focus:outline-none border border-gray-700 rounded-full" 
+                />
+                <span className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 font-bold">⌖</span>
+              </form>
             </div>
-            <Link href="/collaborate" className="hidden sm:inline-block px-4 py-2 text-sm font-semibold border border-gray-700 text-gray-300 rounded-full hover:bg-white hover:text-black transition-colors duration-300">Contact</Link>
-            <Link href="/resonate" className="hidden sm:inline-block ml-3 px-4 py-2 text-sm font-semibold border border-cyan-400 text-cyan-200 rounded-full hover:bg-cyan-400 hover:text-black transition-colors duration-300 shadow-md tracking-widest">Resonate</Link>
+            <div className="flex items-center gap-2">
+              <Link href="/resonate" className="hidden sm:inline-block px-3 py-1.5 text-sm font-semibold border border-cyan-400 text-cyan-200 rounded-full hover:bg-cyan-400 hover:text-black transition-colors duration-300 shadow-md tracking-widest">Resonate</Link>
+            </div>
           </div>
         </header>
         {/* Main Content */}
-        <div className={`${sidebarOpen ? 'md:pl-44' : ''} pt-20 min-h-screen flex flex-col transition-all duration-300`}>
+        <div className={`${sidebarOpen ? 'md:pl-44' : ''} pt-16 min-h-screen flex flex-col transition-all duration-300`}>
           <AnimatePresence mode="wait">
             <motion.main
               key={pathname}
@@ -340,7 +327,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Overlay for mobile menu */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/60 z-40 md:hidden"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden"
             onClick={() => setSidebarOpen(false)}
             aria-label="Close menu overlay"
           />
