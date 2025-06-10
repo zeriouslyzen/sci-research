@@ -4,10 +4,22 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
+import AccountPanel from './components/AccountPanel';
+import PreferencesPanel from './components/PreferencesPanel';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  const [sidebarView, setSidebarView] = React.useState<'main'|'account'|'preferences'>('main');
+  const [theme, setTheme] = React.useState('auto');
+  const [language, setLanguage] = React.useState('en');
   const pathname = usePathname();
+  // Placeholder user data
+  const user = {
+    avatarUrl: '',
+    fullName: 'Deshon Jackson',
+    username: 'shonjaks56302',
+    email: 'deshon@example.com',
+  };
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -167,7 +179,47 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <li><Link href="/collaborate" className="block pt-6 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Collaborate</Link></li>
             </ul>
           </nav>
+          {/* Modular bottom section */}
+          <div className="absolute bottom-0 left-0 w-full flex flex-col gap-1 p-2 border-t border-white/10 bg-black/90 z-10">
+            <button onClick={() => setSidebarView('account')} className="flex items-center gap-2 py-1 px-2 rounded hover:bg-cyan-900/40 transition text-white font-mono text-sm">
+              <span>My Space</span>
+            </button>
+            <button className="flex items-center gap-2 py-1 px-2 rounded hover:bg-cyan-900/40 transition text-gray-400 font-mono text-sm">
+              <span>ETC</span>
+            </button>
+          </div>
         </aside>
+        {/* Sidebar slide panels */}
+        <AnimatePresence>
+          {sidebarOpen && sidebarView !== 'main' && (
+            <motion.div
+              key={sidebarView}
+              initial={{ x: -200, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -200, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed left-0 top-20 mt-0 h-[calc(100vh-5rem)] w-72 md:w-80 p-0 z-[60] bg-black border-r border-white/10 rounded-b-2xl shadow-xl"
+              style={{ pointerEvents: 'auto' }}
+            >
+              {sidebarView === 'account' && (
+                <AccountPanel
+                  user={user}
+                  onBack={() => setSidebarView('main')}
+                  onSignOut={() => alert('Sign out')}
+                />
+              )}
+              {sidebarView === 'preferences' && (
+                <PreferencesPanel
+                  theme={theme}
+                  setTheme={setTheme}
+                  language={language}
+                  setLanguage={setLanguage}
+                  onBack={() => setSidebarView('main')}
+                />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
         {/* Floating show-sidebar button */}
         {!sidebarOpen && (
           <button
