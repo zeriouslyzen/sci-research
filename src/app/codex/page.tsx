@@ -100,6 +100,24 @@ export default function CodexPage() {
           <button type="submit" className="self-end px-4 py-1 rounded bg-cyan-700 text-white text-xs font-bold hover:bg-cyan-500 transition">Add Entry</button>
         </form>
       </div>
+      {/* Linguistic & Vibrational Etymology */}
+      <div className="w-full max-w-2xl mb-8 rounded bg-black/80 border border-gray-800 p-4 flex flex-col">
+        <h2 className="text-lg font-bold mb-2 flex items-center gap-2">⟁ Linguistic & Vibrational Etymology</h2>
+        <p className="text-xs text-gray-300 mb-2">Explore the roots, resonance, and vibrational meaning of words, symbols, and language. Track etymological discoveries and their impact on your research.</p>
+        <div className="text-xs text-gray-400">(Coming soon: interactive etymology explorer, resonance mapping, and more.)</div>
+      </div>
+      {/* Cryptography & Decryption */}
+      <div className="w-full max-w-2xl mb-8 rounded bg-black/80 border border-gray-800 p-4 flex flex-col">
+        <h2 className="text-lg font-bold mb-2 flex items-center gap-2">Ψ Cryptography & Decryption</h2>
+        <p className="text-xs text-gray-300 mb-2">Decode hidden patterns, ciphers, and symbolic messages. Log breakthroughs in cryptography, steganography, and symbolic decryption.</p>
+        <div className="text-xs text-gray-400">(Coming soon: cipher tools, code-breaking quests, and more.)</div>
+      </div>
+      {/* History & Mythology */}
+      <div className="w-full max-w-2xl mb-10 rounded bg-black/80 border border-gray-800 p-4 flex flex-col">
+        <h2 className="text-lg font-bold mb-2 flex items-center gap-2">Φ History & Mythology</h2>
+        <p className="text-xs text-gray-300 mb-2">Trace the symbolic, historical, and mythological roots of your research. Connect ancient stories, archetypes, and timelines to your discoveries.</p>
+        <div className="text-xs text-gray-400">(Coming soon: mythic timelines, archetype explorer, and more.)</div>
+      </div>
       <style jsx>{`
         .animate-fadein { animation: fadein 0.4s; }
         @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }

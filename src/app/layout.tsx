@@ -184,9 +184,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <button onClick={() => setSidebarView('account')} className="flex items-center gap-2 py-1 px-2 rounded hover:bg-cyan-900/40 transition text-white font-mono text-sm">
               <span>My Space</span>
             </button>
-            <button className="flex items-center gap-2 py-1 px-2 rounded hover:bg-cyan-900/40 transition text-gray-400 font-mono text-sm">
-              <span>ETC</span>
-            </button>
+            <Link href="/visions" className="flex items-center gap-2 py-1 px-2 rounded hover:bg-cyan-900/40 transition text-cyan-400 font-mono text-sm">
+              <span>Visions</span>
+            </Link>
           </div>
         </aside>
         {/* Sidebar slide panels */}
@@ -205,7 +205,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <AccountPanel
                   user={user}
                   onBack={() => setSidebarView('main')}
-                  onSignOut={() => alert('Sign out')}
                 />
               )}
               {sidebarView === 'preferences' && (
