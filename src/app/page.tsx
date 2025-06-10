@@ -1,17 +1,12 @@
 'use client';
-import React, { useRef, useEffect, useState, createContext, useContext } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import HomepageVisuals from './components/HomepageVisuals';
 import ResonancePrompt from './components/ResonancePrompt';
 import ModeSelector from './components/ModeSelector';
 import OperatorUplink from './components/OperatorUplink';
 import { motion } from 'framer-motion';
+import { SymbolicContext } from './context/SymbolicContext';
 // import AnimatedCube from './components/AnimatedCube';
-
-// Symbolic context for mode/intent
-const SymbolicContext = createContext<unknown>(null);
-export function useSymbolicContext() {
-  return useContext(SymbolicContext);
-}
 
 const featureSections = [
   {
@@ -279,22 +274,24 @@ function VerticalSlider() {
   );
 }
 
+type PromptState = 'prompt' | 'expanded' | 'dismissed';
+
 export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollLocked, setScrollLocked] = useState(true);
 
   // Symbolic onboarding state
-  const [portalPhase, setPortalPhase] = useState<'prompt'|'expanded'|'dismissed'>('prompt');
+  const [promptState, setPromptState] = useState<PromptState>('prompt');
   const [selectedMode, setSelectedMode] = useState<string|undefined>(undefined);
   const [uplinkOpen, setUplinkOpen] = useState(false);
   const [missionSeed, setMissionSeed] = useState<string|undefined>(undefined);
 
   // Auto-dismiss after 10s if no engagement
   useEffect(() => {
-    if (portalPhase !== 'prompt') return;
-    const timer = setTimeout(() => setPortalPhase('dismissed'), 10000);
+    if (promptState !== 'prompt') return;
+    const timer = setTimeout(() => setPromptState('dismissed'), 10000);
     return () => clearTimeout(timer);
-  }, [portalPhase]);
+  }, [promptState]);
 
   // Custom scroll handler for hero section
   useEffect(() => {
@@ -345,8 +342,8 @@ export default function HomePage() {
   };
 
   // Overlay logic
-  const showPortal = portalPhase === 'prompt' || portalPhase === 'expanded';
-  const showCompressedHero = portalPhase === 'dismissed';
+  const showPortal = promptState === 'prompt' || promptState === 'expanded';
+  const showCompressedHero = promptState === 'dismissed';
 
   return (
     <SymbolicContext.Provider value={symbolicValue}>
@@ -355,14 +352,14 @@ export default function HomePage() {
           <HomepageVisuals overlayOpacity={1} overlayProgress={0} />
           {/* Symbolic onboarding portal overlay */}
           {showPortal && (
-            <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 ${portalPhase === 'expanded' ? 'bg-black/95 z-40' : 'bg-black/70 z-30'}`}>
+            <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 ${promptState === 'expanded' ? 'bg-black/95 z-40' : 'bg-black/70 z-30'}`}>
               <ResonancePrompt
                 mode={selectedMode}
-                onEngage={() => setPortalPhase('expanded')}
-                onDismiss={() => setPortalPhase('dismissed')}
-                visible={portalPhase !== 'dismissed'}
+                onEngage={() => setPromptState('expanded')}
+                onDismiss={() => setPromptState('dismissed')}
+                visible={promptState !== 'dismissed'}
               />
-              {portalPhase === 'expanded' && (
+              {promptState === 'expanded' && (
                 <>
                   <ModeSelector selectedMode={selectedMode} onSelect={setSelectedMode} />
                   <button
@@ -383,7 +380,7 @@ export default function HomePage() {
           {/* Compressed hero if dismissed */}
           {showCompressedHero && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-20">
-              <ResonancePrompt mode={selectedMode} visible={portalPhase !== 'dismissed'} />
+              <ResonancePrompt mode={selectedMode} visible={promptState === 'prompt' || promptState === 'expanded'} />
             </div>
           )}
         </div>
