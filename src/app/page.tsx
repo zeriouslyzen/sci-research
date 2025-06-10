@@ -1,8 +1,17 @@
 'use client';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, createContext, useContext } from 'react';
 import HomepageVisuals from './components/HomepageVisuals';
+import ResonancePrompt from './components/ResonancePrompt';
+import ModeSelector from './components/ModeSelector';
+import OperatorUplink from './components/OperatorUplink';
 import { motion } from 'framer-motion';
 // import AnimatedCube from './components/AnimatedCube';
+
+// Symbolic context for mode/intent
+const SymbolicContext = createContext<any>(null);
+export function useSymbolicContext() {
+  return useContext(SymbolicContext);
+}
 
 const featureSections = [
   {
@@ -275,6 +284,19 @@ export default function HomePage() {
   const [heroScrollProgress, setHeroScrollProgress] = useState(0); // 0 to 1
   const [scrollLocked, setScrollLocked] = useState(true);
 
+  // Symbolic onboarding state
+  const [portalPhase, setPortalPhase] = useState<'prompt'|'expanded'|'dismissed'>('prompt');
+  const [selectedMode, setSelectedMode] = useState<string|undefined>(undefined);
+  const [uplinkOpen, setUplinkOpen] = useState(false);
+  const [missionSeed, setMissionSeed] = useState<string|undefined>(undefined);
+
+  // Auto-dismiss after 10s if no engagement
+  useEffect(() => {
+    if (portalPhase !== 'prompt') return;
+    const timer = setTimeout(() => setPortalPhase('dismissed'), 10000);
+    return () => clearTimeout(timer);
+  }, [portalPhase]);
+
   // Custom scroll handler for hero section
   useEffect(() => {
     if (!scrollLocked) return;
@@ -282,7 +304,7 @@ export default function HomePage() {
     function onWheel(e: WheelEvent) {
       e.preventDefault();
       setHeroScrollProgress(prev => {
-        let next = prev + e.deltaY / 600; // adjust denominator for sensitivity
+        let next = prev + e.deltaY / 600;
         next = Math.max(0, Math.min(1, next));
         if (next >= 1) setScrollLocked(false);
         return next;
@@ -325,59 +347,103 @@ export default function HomePage() {
     };
   }, [scrollLocked]);
 
-  // Overlays/labels opacity based on heroScrollProgress
-  const overlayOpacity = 1 - heroScrollProgress;
+  // Symbolic context value
+  const symbolicValue = {
+    selectedMode,
+    setSelectedMode,
+    missionSeed,
+    setMissionSeed,
+  };
+
+  // Overlay logic
+  const showPortal = portalPhase === 'prompt' || portalPhase === 'expanded';
+  const showCompressedHero = portalPhase === 'dismissed';
 
   return (
-    <div className="relative z-10 bg-black/50 backdrop-blur-sm">
-      <div ref={heroRef} style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-        <HomepageVisuals overlayOpacity={overlayOpacity} overlayProgress={heroScrollProgress} />
-      </div>
-      <div className="container mx-auto px-2 py-8 sm:px-6 sm:py-24">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Main content compressed on desktop */}
-          <div className="flex-1 space-y-8 sm:space-y-24">
-            {featureSections.map((section) => (
-              <motion.div
-                key={section.title}
-                className={
-                  section.center
-                    ? 'feature-section text-center max-w-3xl mx-auto rounded-xl border border-gray-800 shadow-md bg-black/80 p-4 sm:p-10'
-                    : 'feature-section grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 items-center rounded-xl border border-gray-800 shadow-md bg-black/80 p-4 sm:p-10'
-                }
-                initial={{ opacity: 0, y: 64 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.9, ease: 'easeOut' }}
-              >
-                {section.center ? (
-                  <>
-                    <h2 className="text-xl font-bold tracking-tight text-white sm:text-3xl">{section.title}</h2>
-                    <p className="mt-3 text-base leading-6 text-gray-300 sm:mt-6 sm:text-lg sm:leading-8">{section.content}</p>
-                    {section.right && (
-                      <div className="flex justify-center mt-4 sm:mt-8">
-                        {React.cloneElement(section.right, { className: 'w-24 h-24 sm:w-32 sm:h-32 mx-auto' })}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <div className="text-left">
+    <SymbolicContext.Provider value={symbolicValue}>
+      <div className="relative z-10 bg-black/50 backdrop-blur-sm">
+        <div ref={heroRef} style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+          <HomepageVisuals overlayOpacity={1} overlayProgress={0} />
+          {/* Symbolic onboarding portal overlay */}
+          {showPortal && (
+            <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 ${portalPhase === 'expanded' ? 'bg-black/95 z-40' : 'bg-black/70 z-30'}`}>
+              <ResonancePrompt
+                mode={selectedMode}
+                onEngage={() => setPortalPhase('expanded')}
+                onDismiss={() => setPortalPhase('dismissed')}
+                visible={portalPhase !== 'dismissed'}
+              />
+              {portalPhase === 'expanded' && (
+                <>
+                  <ModeSelector selectedMode={selectedMode} onSelect={setSelectedMode} />
+                  <button
+                    className="mt-6 text-cyan-300 underline underline-offset-2 text-sm font-mono hover:text-cyan-100"
+                    onClick={() => setUplinkOpen(true)}
+                  >
+                    Operator Uplink
+                  </button>
+                  <OperatorUplink
+                    open={uplinkOpen}
+                    onClose={() => setUplinkOpen(false)}
+                    onSeed={seed => setMissionSeed(seed)}
+                  />
+                </>
+              )}
+            </div>
+          )}
+          {/* Compressed hero if dismissed */}
+          {showCompressedHero && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-20">
+              <ResonancePrompt mode={selectedMode} visible={portalPhase !== 'dismissed'} />
+            </div>
+          )}
+        </div>
+        <div className="w-full px-2 py-8 sm:px-6 sm:py-24">
+          <div className="w-full flex flex-col md:flex-row gap-8">
+            {/* Main content compressed on desktop */}
+            <div className="flex-1 space-y-8 sm:space-y-24">
+              {featureSections.map((section) => (
+                <motion.div
+                  key={section.title}
+                  className={
+                    section.center
+                      ? 'feature-section text-center max-w-3xl mx-auto rounded-xl border border-gray-800 shadow-md bg-black/80 p-4 sm:p-10'
+                      : 'feature-section grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 items-center rounded-xl border border-gray-800 shadow-md bg-black/80 p-4 sm:p-10'
+                  }
+                  initial={{ opacity: 0, y: 64 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.9, ease: 'easeOut' }}
+                >
+                  {section.center ? (
+                    <>
                       <h2 className="text-xl font-bold tracking-tight text-white sm:text-3xl">{section.title}</h2>
                       <p className="mt-3 text-base leading-6 text-gray-300 sm:mt-6 sm:text-lg sm:leading-8">{section.content}</p>
-                    </div>
-                    <div className="w-full h-32 sm:h-64 flex items-center justify-center">
-                      {section.right && React.cloneElement(section.right, { className: 'w-24 h-24 sm:w-32 sm:h-64' })}
-                    </div>
-                  </>
-                )}
-              </motion.div>
-            ))}
+                      {section.right && (
+                        <div className="flex justify-center mt-4 sm:mt-8">
+                          {React.cloneElement(section.right, { className: 'w-24 h-24 sm:w-32 sm:h-32 mx-auto' })}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-left">
+                        <h2 className="text-xl font-bold tracking-tight text-white sm:text-3xl">{section.title}</h2>
+                        <p className="mt-3 text-base leading-6 text-gray-300 sm:mt-6 sm:text-lg sm:leading-8">{section.content}</p>
+                      </div>
+                      <div className="w-full h-32 sm:h-64 flex items-center justify-center">
+                        {section.right && React.cloneElement(section.right, { className: 'w-24 h-24 sm:w-32 sm:h-64' })}
+                      </div>
+                    </>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+            {/* Vertical slider for desktop */}
+            <VerticalSlider />
           </div>
-          {/* Vertical slider for desktop */}
-          <VerticalSlider />
         </div>
-      </div>
     </div>
+    </SymbolicContext.Provider>
   );
 }
