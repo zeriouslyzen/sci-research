@@ -1,5 +1,6 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
 import HomepageVisuals from './components/HomepageVisuals';
 import ResonancePrompt from './components/ResonancePrompt';
 import ModeSelector from './components/ModeSelector';
@@ -98,9 +99,30 @@ const featureSections = [
         className="flex flex-col gap-2 items-center"
       >
         <div className="flex gap-2">
-          <img src="/team1.jpg" alt="Team member 1" className="w-16 h-16 rounded-full object-cover border-2 border-white/30" />
-          <img src="/team2.jpg" alt="Team member 2" className="w-16 h-16 rounded-full object-cover border-2 border-white/30" />
-          <img src="/team3.jpg" alt="Team member 3" className="w-16 h-16 rounded-full object-cover border-2 border-white/30" />
+          <div className="relative w-16 h-16">
+            <Image
+              src="/team1.jpg"
+              alt="Team member 1"
+              fill
+              className="rounded-full object-cover border-2 border-white/30"
+            />
+          </div>
+          <div className="relative w-16 h-16">
+            <Image
+              src="/team2.jpg"
+              alt="Team member 2"
+              fill
+              className="rounded-full object-cover border-2 border-white/30"
+            />
+          </div>
+          <div className="relative w-16 h-16">
+            <Image
+              src="/team3.jpg"
+              alt="Team member 3"
+              fill
+              className="rounded-full object-cover border-2 border-white/30"
+            />
+          </div>
         </div>
         <span className="text-xs text-gray-400 mt-2">A multidisciplinary journey</span>
       </motion.div>
@@ -282,9 +304,14 @@ export default function HomePage() {
 
   // Symbolic onboarding state
   const [promptState, setPromptState] = useState<PromptState>('prompt');
-  const [selectedMode, setSelectedMode] = useState<string|undefined>(undefined);
+  const [selectedMode, setSelectedMode] = useState<string | undefined>(undefined);
   const [uplinkOpen, setUplinkOpen] = useState(false);
-  const [missionSeed, setMissionSeed] = useState<string|undefined>(undefined);
+  const [missionSeed, setMissionSeed] = useState<string>('');
+
+  // Helper function to check if prompt is visible
+  const isPromptVisible = (state: PromptState): boolean => {
+    return state === 'prompt' || state === 'expanded';
+  };
 
   // Auto-dismiss after 10s if no engagement
   useEffect(() => {
@@ -342,7 +369,7 @@ export default function HomePage() {
   };
 
   // Overlay logic
-  const showPortal = promptState === 'prompt' || promptState === 'expanded';
+  const showPortal = isPromptVisible(promptState);
   const showCompressedHero = promptState === 'dismissed';
 
   return (
@@ -357,19 +384,13 @@ export default function HomePage() {
                 mode={selectedMode}
                 onEngage={() => setPromptState('expanded')}
                 onDismiss={() => setPromptState('dismissed')}
-                visible={promptState !== 'dismissed'}
+                visible={isPromptVisible(promptState)}
               />
               {promptState === 'expanded' && (
                 <>
                   <ModeSelector selectedMode={selectedMode} onSelect={setSelectedMode} />
-                  <button
-                    className="mt-6 text-cyan-300 underline underline-offset-2 text-sm font-mono hover:text-cyan-100"
-                    onClick={() => setUplinkOpen(true)}
-                  >
-                    Operator Uplink
-                  </button>
-                  <OperatorUplink
-                    open={uplinkOpen}
+                  <OperatorUplink 
+                    open={uplinkOpen} 
                     onClose={() => setUplinkOpen(false)}
                     onSeed={seed => setMissionSeed(seed)}
                   />
@@ -380,7 +401,10 @@ export default function HomePage() {
           {/* Compressed hero if dismissed */}
           {showCompressedHero && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-20">
-              <ResonancePrompt mode={selectedMode} visible={promptState === 'prompt' || promptState === 'expanded'} />
+              <ResonancePrompt 
+                mode={selectedMode} 
+                visible={isPromptVisible(promptState)} 
+              />
             </div>
           )}
         </div>
