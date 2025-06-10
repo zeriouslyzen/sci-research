@@ -9,6 +9,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const pathname = usePathname();
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 768) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    }
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -93,6 +103,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 .cyberpunk-toggle {
   animation: none;
 }
+@keyframes fragment {
+  0%, 100% { text-shadow: none; }
+  20% { text-shadow: 1px 0 0 #fff, -1px 0 0 #fff; }
+  40% { text-shadow: 2px 0 0 #fff, -2px 0 0 #fff; }
+  60% { text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff; }
+  80% { text-shadow: 0 2px 0 #fff, 0 -2px 0 #fff; }
+}
+.fragment-link {
+  color: #fff;
+  transition: text-shadow 0.2s, color 0.2s;
+}
+.fragment-link:hover {
+  animation: fragment 0.7s linear;
+  color: #fff;
+}
 `}</style>
       </head>
       <body className="bg-[#0A0A0A] text-[#E0E0E0] font-sans min-h-screen antialiased">
@@ -124,22 +149,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </button>
           <nav>
             <ul className="space-y-1 font-mono text-base mt-8">
-              <li><Link href="/" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Home</Link></li>
-              <li><Link href="/mission" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Mission</Link></li>
-              <li><Link href="/research" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Research</Link></li>
+              <li><Link href="/" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Home</Link></li>
+              <li><Link href="/mission" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Mission</Link></li>
+              <li><Link href="/research" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Research</Link></li>
               <li className="pt-2"><span className="text-xs text-gray-500">PHILOSOPHY</span></li>
-              <li><Link href="/nexus" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Nexus</Link></li>
-              <li><Link href="/impact" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Impact</Link></li>
+              <li><Link href="/nexus" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Nexus</Link></li>
+              <li><Link href="/impact" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Impact</Link></li>
               <li className="pt-2"><span className="text-xs text-gray-500">PROJECTS</span></li>
-              <li><Link href="/thesidia" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Thesidia</Link></li>
-              <li><Link href="/katana" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Katana</Link></li>
-              <li><Link href="/myth0s" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Myth0s</Link></li>
+              <li><Link href="/thesidia" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Thesidia</Link></li>
+              <li><Link href="/katana" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Katana</Link></li>
+              <li><Link href="/myth0s" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Myth0s</Link></li>
               <li className="pt-2"><span className="text-xs text-gray-500">RESOURCES</span></li>
-              <li><Link href="/metrics" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Metrics</Link></li>
-              <li><Link href="/api_arc" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">API ARC</Link></li>
-              <li><Link href="/safety" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">Safety</Link></li>
-              <li><Link href="/news" className="block py-1.5 px-2 text-gray-300 hover:text-white rounded transition-colors">News</Link></li>
-              <li><Link href="/collaborate" className="block pt-6 text-gray-300 hover:text-white rounded transition-colors">Collaborate</Link></li>
+              <li><Link href="/metrics" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Metrics</Link></li>
+              <li><Link href="/api_arc" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>API ARC</Link></li>
+              <li><Link href="/safety" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Safety</Link></li>
+              <li><Link href="/news" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>News</Link></li>
+              <li><Link href="/collaborate" className="block pt-6 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Collaborate</Link></li>
             </ul>
           </nav>
         </aside>
@@ -177,9 +202,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 aria-label="Open menu"
               >
                 <span className="w-7 h-7 flex items-center justify-center">
-                  <svg className="animate-spin-slow" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="14,4 24,24 4,24" fill="none" stroke="#0ff" strokeWidth="2" />
-                  </svg>
+                  {/* Removed animated triangle SVG */}
                 </span>
               </button>
               {/* Remove the animated geometric SVG icon here */}

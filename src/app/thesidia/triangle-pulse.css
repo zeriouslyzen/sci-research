@@ -1,0 +1,44 @@
+.triangle-send {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background: none;
+  position: relative;
+}
+.triangle-send::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  margin: auto;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 24px solid #0ff;
+  filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 2px #f0f);
+  transition: border-bottom-color 0.3s, filter 0.3s;
+}
+.triangle-send.pulse::before {
+  animation: triangle-pulse 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes triangle-pulse {
+  0% {
+    border-bottom-color: #0ff;
+    filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 2px #f0f);
+    transform: scale(1);
+  }
+  30% {
+    border-bottom-color: #f0f;
+    filter: drop-shadow(0 0 12px #f0f) drop-shadow(0 0 8px #0ff);
+    transform: scale(1.18);
+  }
+  60% {
+    border-bottom-color: #fff200;
+    filter: drop-shadow(0 0 16px #fff200) drop-shadow(0 0 8px #0ff);
+    transform: scale(1.08);
+  }
+  100% {
+    border-bottom-color: #0ff;
+    filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 2px #f0f);
+    transform: scale(1);
+  }
+} 

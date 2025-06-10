@@ -12,7 +12,33 @@ const featureSections = [
         Current systems predict what you might say. Our architecture is designed to understand what you truly <strong className="text-teal-400">mean</strong>. We are moving beyond statistical approximation to build systems grounded in coherent, verifiable intent, enabling a new class of reliable and trustworthy AI.
       </>
     ),
-    right: null,
+    right: (
+      <svg
+        viewBox="0 0 120 120"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-24 h-24 sm:w-32 sm:h-32 mx-auto"
+      >
+        {/* Brain/network (left) */}
+        <ellipse cx="40" cy="60" rx="28" ry="18" fill="#0ff2" />
+        <ellipse cx="40" cy="60" rx="18" ry="10" fill="#0ff4" />
+        <circle cx="30" cy="60" r="3" fill="#0ff" />
+        <circle cx="50" cy="60" r="3" fill="#0ff" />
+        <circle cx="40" cy="50" r="3" fill="#0ff" />
+        <circle cx="40" cy="70" r="3" fill="#0ff" />
+        <line x1="30" y1="60" x2="40" y2="50" stroke="#0ff" strokeWidth="1.5" />
+        <line x1="30" y1="60" x2="40" y2="70" stroke="#0ff" strokeWidth="1.5" />
+        <line x1="50" y1="60" x2="40" y2="50" stroke="#0ff" strokeWidth="1.5" />
+        <line x1="50" y1="60" x2="40" y2="70" stroke="#0ff" strokeWidth="1.5" />
+        {/* Crystal/geometric (right) */}
+        <polygon points="80,40 110,60 80,80 50,60" fill="#fff3" stroke="#fff" strokeWidth="2" className="animate-geoshift" />
+        <polygon points="80,40 80,80 65,60" fill="#0ff6" stroke="#0ff" strokeWidth="1" className="animate-geoshift" />
+        <polygon points="80,40 110,60 65,60" fill="#0ff2" stroke="#0ff" strokeWidth="1" className="animate-geoshift" />
+        <polygon points="80,80 110,60 65,60" fill="#0ff2" stroke="#0ff" strokeWidth="1" className="animate-geoshift" />
+        {/* Transition lines */}
+        <line x1="50" y1="60" x2="65" y2="60" stroke="#0ff" strokeDasharray="4 2" strokeWidth="1.5" />
+      </svg>
+    ),
   },
   {
     title: 'Resolving Systemic Paradox',
@@ -125,6 +151,125 @@ const featureSections = [
   },
 ];
 
+const sliderContent = [
+  {
+    type: 'svg',
+    title: 'Symbolic Network',
+    description: 'Animated symbolic network visualizing AI connections.',
+    svg: (
+      <svg viewBox="0 0 80 48" fill="none" className="w-16 h-16 mx-auto animate-pulse">
+        <circle cx="20" cy="24" r="8" fill="#0ff" fillOpacity="0.18" />
+        <circle cx="60" cy="24" r="8" fill="#f0f" fillOpacity="0.18" />
+        <circle cx="40" cy="12" r="6" fill="#fff" fillOpacity="0.18" />
+        <circle cx="40" cy="36" r="6" fill="#fff" fillOpacity="0.18" />
+        <line x1="20" y1="24" x2="40" y2="12" stroke="#0ff" strokeWidth="2" />
+        <line x1="20" y1="24" x2="40" y2="36" stroke="#0ff" strokeWidth="2" />
+        <line x1="60" y1="24" x2="40" y2="12" stroke="#f0f" strokeWidth="2" />
+        <line x1="60" y1="24" x2="40" y2="36" stroke="#f0f" strokeWidth="2" />
+        <line x1="20" y1="24" x2="60" y2="24" stroke="#fff" strokeWidth="2" />
+      </svg>
+    )
+  },
+  {
+    type: 'image',
+    src: '/team1.jpg',
+    alt: 'Team at work',
+    caption: 'Our team in the lab, exploring new frontiers.'
+  },
+  {
+    type: 'article',
+    title: 'The Future of Symbolic AI',
+    excerpt: 'How symbolic reasoning is reshaping the landscape of artificial intelligence and trust.',
+    link: '/research'
+  },
+  {
+    type: 'svg',
+    title: 'Data Flow',
+    description: 'Animated data flow, representing information technologies.',
+    svg: (
+      <svg viewBox="0 0 80 48" fill="none" className="w-16 h-16 mx-auto animate-spin-slow">
+        <rect x="10" y="20" width="60" height="8" rx="4" fill="#0ff" fillOpacity="0.12" />
+        <rect x="20" y="24" width="40" height="4" rx="2" fill="#f0f" fillOpacity="0.18" />
+        <circle cx="40" cy="24" r="6" fill="#fff" fillOpacity="0.18" />
+      </svg>
+    )
+  },
+  {
+    type: 'image',
+    src: '/team2.jpg',
+    alt: 'Research session',
+    caption: 'Collaborative research session on cognitive architectures.'
+  },
+  {
+    type: 'article',
+    title: 'From Probability to Coherence',
+    excerpt: 'Moving beyond prediction to build systems grounded in coherent, verifiable intent.',
+    link: '/mission'
+  },
+  {
+    type: 'svg',
+    title: 'Crystal Growth',
+    description: 'Geometric crystal growing, symbolizing coherence.',
+    svg: (
+      <svg viewBox="0 0 80 48" fill="none" className="w-16 h-16 mx-auto animate-geoshift">
+        <polygon points="40,8 72,24 40,40 8,24" fill="#fff3" stroke="#fff" strokeWidth="2" />
+        <polygon points="40,8 40,40 24,24" fill="#0ff6" stroke="#0ff" strokeWidth="1" />
+        <polygon points="40,8 72,24 24,24" fill="#0ff2" stroke="#0ff" strokeWidth="1" />
+        <polygon points="40,40 72,24 24,24" fill="#0ff2" stroke="#0ff" strokeWidth="1" />
+      </svg>
+    )
+  },
+  {
+    type: 'image',
+    src: '/team3.jpg',
+    alt: 'Symbolic graphs',
+    caption: 'Visualizing the hidden structure of cognition.'
+  },
+  {
+    type: 'article',
+    title: 'SCI Research: Architecting the Future',
+    excerpt: 'A multidisciplinary journey to build systems that honor the depth of consciousness.',
+    link: '/mission'
+  },
+];
+
+function VerticalSlider() {
+  return (
+    <div className="hidden md:flex flex-col items-center sticky top-24 h-[80vh] w-80 bg-black/80 rounded-2xl border border-gray-800 shadow-lg p-4 z-20 overflow-y-auto custom-scrollbar">
+      <div className="flex flex-col gap-4 w-full">
+        {sliderContent.map((item, i) => (
+          <div
+            key={i}
+            className="w-full bg-black/90 rounded-xl border border-gray-700 shadow-md p-4 flex flex-col items-center group transition-transform duration-300 hover:scale-[1.03] animate-fadein"
+            style={{ animationDelay: `${i * 0.08 + 0.1}s` }}
+          >
+            {item.type === 'image' && (
+              <>
+                <img src={item.src} alt={item.alt} className="w-full h-28 object-cover rounded mb-2 border border-gray-700 shadow" />
+                <div className="text-xs text-gray-300 text-center">{item.caption}</div>
+              </>
+            )}
+            {item.type === 'article' && (
+              <div className="w-full flex flex-col items-center">
+                <h3 className="text-base font-bold text-white mb-1 text-center">{item.title}</h3>
+                <p className="text-gray-400 text-xs mb-2 text-center">{item.excerpt}</p>
+                <a href={item.link} className="inline-block px-3 py-1 rounded bg-cyan-500 text-black font-semibold text-xs hover:bg-cyan-400 transition">Read More</a>
+              </div>
+            )}
+            {item.type === 'svg' && (
+              <div className="w-full flex flex-col items-center">
+                {item.svg}
+                <h3 className="text-base font-bold text-white mt-2 mb-1 text-center">{item.title}</h3>
+                <p className="text-gray-400 text-xs text-center">{item.description}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [heroScrollProgress, setHeroScrollProgress] = useState(0); // 0 to 1
@@ -188,37 +333,50 @@ export default function HomePage() {
       <div ref={heroRef} style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
         <HomepageVisuals overlayOpacity={overlayOpacity} overlayProgress={heroScrollProgress} />
       </div>
-      <div className="container mx-auto px-6 py-24 sm:py-32 space-y-24 sm:space-y-32">
-        {featureSections.map((section) => (
-          <motion.div
-            key={section.title}
-            className={
-              section.center
-                ? 'feature-section text-center max-w-3xl mx-auto'
-                : 'feature-section grid grid-cols-1 md:grid-cols-2 gap-16 items-center'
-            }
-            initial={{ opacity: 0, y: 64 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
-          >
-            {section.center ? (
-              <>
-                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{section.title}</h2>
-                <p className="mt-6 text-lg leading-8 text-gray-300">{section.content}</p>
-                {section.right}
-              </>
-            ) : (
-              <>
-                <div className="text-left">
-                  <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{section.title}</h2>
-                  <p className="mt-6 text-lg leading-8 text-gray-300">{section.content}</p>
-                </div>
-                <div className="w-full h-64 flex items-center justify-center">{section.right}</div>
-              </>
-            )}
-          </motion.div>
-        ))}
+      <div className="container mx-auto px-2 py-8 sm:px-6 sm:py-24">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Main content compressed on desktop */}
+          <div className="flex-1 space-y-8 sm:space-y-24">
+            {featureSections.map((section) => (
+              <motion.div
+                key={section.title}
+                className={
+                  section.center
+                    ? 'feature-section text-center max-w-3xl mx-auto rounded-xl border border-gray-800 shadow-md bg-black/80 p-4 sm:p-10'
+                    : 'feature-section grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 items-center rounded-xl border border-gray-800 shadow-md bg-black/80 p-4 sm:p-10'
+                }
+                initial={{ opacity: 0, y: 64 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.9, ease: 'easeOut' }}
+              >
+                {section.center ? (
+                  <>
+                    <h2 className="text-xl font-bold tracking-tight text-white sm:text-3xl">{section.title}</h2>
+                    <p className="mt-3 text-base leading-6 text-gray-300 sm:mt-6 sm:text-lg sm:leading-8">{section.content}</p>
+                    {section.right && (
+                      <div className="flex justify-center mt-4 sm:mt-8">
+                        {React.cloneElement(section.right, { className: 'w-24 h-24 sm:w-32 sm:h-32 mx-auto' })}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="text-left">
+                      <h2 className="text-xl font-bold tracking-tight text-white sm:text-3xl">{section.title}</h2>
+                      <p className="mt-3 text-base leading-6 text-gray-300 sm:mt-6 sm:text-lg sm:leading-8">{section.content}</p>
+                    </div>
+                    <div className="w-full h-32 sm:h-64 flex items-center justify-center">
+                      {section.right && React.cloneElement(section.right, { className: 'w-24 h-24 sm:w-32 sm:h-64' })}
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            ))}
+          </div>
+          {/* Vertical slider for desktop */}
+          <VerticalSlider />
+        </div>
       </div>
     </div>
   );

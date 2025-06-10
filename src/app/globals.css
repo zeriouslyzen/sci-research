@@ -75,3 +75,24 @@ body {
 .animate-geoshift {
   animation: geoshift 8s ease-in-out infinite alternate;
 }
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fadein {
+  animation: fadein 0.7s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #0ff #18181b;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background: #18181b;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(120deg, #0ff 40%, #f0f 100%);
+  border-radius: 8px;
+}
