@@ -10,6 +10,7 @@ import SidebarOpenButton from './components/SidebarOpenButton';
 import { PhaseEffectProvider } from './components/PhaseEffectProvider';
 import PhaseShiftContainer from './components/PhaseShiftContainer';
 import PhaseBadge from './components/PhaseBadge';
+import AmbientSoundSystem from './components/AmbientSoundSystem';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -363,6 +364,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </footer>
             </div>
           </PhaseShiftContainer>
+          <AmbientSoundSystem />
         </body>
       </html>
     </PhaseEffectProvider>
