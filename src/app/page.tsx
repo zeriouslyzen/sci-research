@@ -3,8 +3,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import HomepageVisuals from './components/HomepageVisuals';
 import ResonancePrompt from './components/ResonancePrompt';
-import ModeSelector from './components/ModeSelector';
-import OperatorUplink from './components/OperatorUplink';
 import { motion } from 'framer-motion';
 import { SymbolicContext } from './context/SymbolicContext';
 // import AnimatedCube from './components/AnimatedCube';
@@ -305,20 +303,12 @@ export default function HomePage() {
   // Symbolic onboarding state
   const [promptState, setPromptState] = useState<PromptState>('prompt');
   const [selectedMode, setSelectedMode] = useState<string | undefined>(undefined);
-  const [uplinkOpen, setUplinkOpen] = useState(false);
   const [missionSeed, setMissionSeed] = useState<string>('');
 
   // Helper function to check if prompt is visible
   const isPromptVisible = (state: PromptState): boolean => {
     return state === 'prompt' || state === 'expanded';
   };
-
-  // Auto-dismiss after 10s if no engagement
-  useEffect(() => {
-    if (promptState !== 'prompt') return;
-    const timer = setTimeout(() => setPromptState('dismissed'), 10000);
-    return () => clearTimeout(timer);
-  }, [promptState]);
 
   // Custom scroll handler for hero section
   useEffect(() => {
@@ -380,9 +370,7 @@ export default function HomePage() {
           {/* Symbolic onboarding portal overlay */}
           {showPortal && (
             <ResonancePrompt
-              mode={selectedMode}
               onEngage={() => setPromptState('expanded')}
-              onDismiss={() => setPromptState('dismissed')}
               visible={isPromptVisible(promptState)}
             />
           )}
@@ -390,7 +378,6 @@ export default function HomePage() {
           {showCompressedHero && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-20">
               <ResonancePrompt 
-                mode={selectedMode} 
                 visible={isPromptVisible(promptState)} 
               />
             </div>
