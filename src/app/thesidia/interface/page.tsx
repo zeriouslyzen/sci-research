@@ -3,15 +3,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../thesidia-glitch.css';
 import '../triangle-pulse.css';
 
-function HeaderStatement() {
-  return (
-    <div className="text-center mb-10">
-      <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Thesidia</h1>
-      <p className="text-lg text-gray-300 font-mono">What do you seek to unfold?</p>
-    </div>
-  );
-}
-
 function CategoryGrid({ onSelect }: { onSelect: (mode: string) => void }) {
   const modes = [
     {
@@ -155,34 +146,49 @@ export default function ThesidiaInterfacePage() {
     }, 900);
   };
 
+  const toggleSidebar = () => {
+    const event = new CustomEvent('toggleSidebar', { detail: true });
+    window.dispatchEvent(event);
+  };
+
   return (
-    <div className="fixed inset-0 flex flex-col bg-black text-white overflow-hidden pt-20">
-      {/* Floating show-panel button */}
-      {!panelOpen && (
+    <div className="fixed inset-0 flex flex-col bg-black text-white overflow-hidden">
+      {/* Small toolbar */}
+      <div className="h-12 bg-black/90 border-b border-gray-800 flex items-center justify-between px-4">
         <button
-          className="hidden lg:flex fixed top-24 right-6 z-40 bg-black text-cyan-400 rounded-full p-2 shadow-lg focus:outline-none"
-          onClick={() => setPanelOpen(true)}
-          aria-label="Show metrics panel"
+          onClick={toggleSidebar}
+          className="text-yellow-400 hover:text-white bg-transparent rounded-full p-1.5 focus:outline-none"
+          aria-label="Show menu"
         >
-          <span className="w-7 h-7 flex items-center justify-center">
-            <svg className="animate-spin-slow" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="14,4 24,24 4,24" fill="none" stroke="#0ff" strokeWidth="2" filter="url(#glow)" />
+          <span className="w-6 h-6 flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="cyberpunk-toggle">
+              <g filter="url(#glow-white)">
+                <polyline className="chevron-left" points="10,8 2,16 10,24" stroke="#fff" strokeWidth="3" strokeLinejoin="round" fill="none"/>
+                <polyline className="chevron-right" points="22,8 30,16 22,24" stroke="#fff" strokeWidth="3" strokeLinejoin="round" fill="none"/>
+                <line className="slash" x1="16" y1="6" x2="16" y2="26" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+              </g>
               <defs>
-                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#0ff" />
-                  <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#0ff" />
+                <filter id="glow-white" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="1.5" floodColor="#fff" />
                 </filter>
               </defs>
             </svg>
           </span>
         </button>
-      )}
+        <h1 className="text-cyan-400 font-[Share Tech Mono,monospace] text-sm tracking-wider">THESIDIA</h1>
+        <button
+          onClick={() => setPanelOpen(!panelOpen)}
+          className="w-8 h-8 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-colors"
+          aria-label={panelOpen ? "Hide metrics panel" : "Show metrics panel"}
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+      </div>
       <MetricsPanel open={panelOpen} setOpen={setPanelOpen} />
-      <div className="flex-1 flex flex-col w-full max-w-3xl mx-auto relative overflow-hidden">
-        <div className="flex-shrink-0 px-4 pt-8 pb-2 bg-black/80 z-10">
-          <HeaderStatement />
-        </div>
-        <div className="flex-1 overflow-y-auto px-4 pb-32 pt-2 bg-black/70">
+      <div className="flex-1 flex flex-col w-full relative overflow-hidden">
+        <div className="flex-1 overflow-y-auto px-4 pb-32 pt-8 bg-black/70">
           <div className="mb-8">
             <CategoryGrid onSelect={setMode} />
           </div>
@@ -195,22 +201,24 @@ export default function ThesidiaInterfacePage() {
           ))}
           <div ref={chatEndRef} />
         </div>
-        <form onSubmit={handleSend} className="fixed bottom-0 left-0 right-0 w-full max-w-3xl mx-auto px-4 pb-6 bg-black/90 z-20 flex items-center justify-center">
+        <form onSubmit={handleSend} className="fixed bottom-0 left-0 right-0 w-full px-4 pb-6 bg-black/90 z-20 flex items-center justify-center">
           <div className="flex items-center w-full max-w-2xl rounded-full border border-gray-700 bg-black/80 px-4 py-2 shadow-md">
             <input
               ref={inputRef}
               type="text"
               value={input}
-              onChange={e => setInput(e.target.value)}
-              placeholder={mode ? `Ask about ${mode}...` : 'Type your symbolic inquiry...'}
-              className="flex-1 bg-transparent text-white text-lg px-2 py-2 focus:outline-none placeholder-gray-500 font-[Share Tech Mono,monospace]"
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Enter your symbolic query..."
+              className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none font-[Share Tech Mono,monospace]"
             />
             <button
               type="submit"
-              className="ml-2 w-11 h-11 flex items-center justify-center rounded-full bg-white/90 hover:bg-cyan-200 transition-colors duration-200 shadow-sm border border-gray-300 focus:outline-none"
-              aria-label="Send"
+              className={`ml-2 p-2 rounded-full ${pulse ? 'bg-cyan-400' : 'bg-gray-800'} text-white transition-colors duration-300`}
             >
-              <span className={`triangle-send${pulse ? ' pulse' : ''}`}></span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
           </div>
         </form>

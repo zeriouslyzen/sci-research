@@ -374,29 +374,17 @@ export default function HomePage() {
 
   return (
     <SymbolicContext.Provider value={symbolicValue}>
-      <div className="relative z-10 bg-black/50 backdrop-blur-sm">
+      <div className="relative z-10">
+        <HomepageVisuals overlayOpacity={0} overlayProgress={0} />
         <div ref={heroRef} style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-          <HomepageVisuals overlayOpacity={1} overlayProgress={0} />
           {/* Symbolic onboarding portal overlay */}
           {showPortal && (
-            <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 ${promptState === 'expanded' ? 'bg-black/95 z-40' : 'bg-black/70 z-30'}`}>
-              <ResonancePrompt
-                mode={selectedMode}
-                onEngage={() => setPromptState('expanded')}
-                onDismiss={() => setPromptState('dismissed')}
-                visible={isPromptVisible(promptState)}
-              />
-              {promptState === 'expanded' && (
-                <>
-                  <ModeSelector selectedMode={selectedMode} onSelect={setSelectedMode} />
-                  <OperatorUplink 
-                    open={uplinkOpen} 
-                    onClose={() => setUplinkOpen(false)}
-                    onSeed={seed => setMissionSeed(seed)}
-                  />
-                </>
-              )}
-            </div>
+            <ResonancePrompt
+              mode={selectedMode}
+              onEngage={() => setPromptState('expanded')}
+              onDismiss={() => setPromptState('dismissed')}
+              visible={isPromptVisible(promptState)}
+            />
           )}
           {/* Compressed hero if dismissed */}
           {showCompressedHero && (
@@ -453,7 +441,7 @@ export default function HomePage() {
             <VerticalSlider />
           </div>
         </div>
-    </div>
+      </div>
     </SymbolicContext.Provider>
   );
 }

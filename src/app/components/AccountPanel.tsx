@@ -95,7 +95,6 @@ const BROADCAST_SLIDES = [
 ];
 
 const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack }) => {
-  const [bio, setBio] = useState(user.bio || '');
   const [energy] = useState(user.energy ?? 76);
   const [pulse] = useState(user.pulse ?? 'active');
   const [followers] = useState(user.followers ?? 128);
@@ -110,7 +109,7 @@ const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack }) => {
   return (
     <div className="flex flex-col h-full justify-between p-4 bg-black animate-fadein">
       <button onClick={onBack} className="mb-4 text-white text-sm font-mono self-start">← Back</button>
-      <div className="flex flex-col items-center gap-4 mt-2 w-full">
+      <div className="flex flex-col items-center gap-4 mt-2 w-full h-full overflow-y-auto scrollbar-none">
         {/* Broadcast Widget (Slider) */}
         <div className="w-full mb-3 rounded-2xl overflow-hidden bg-black/90 border border-cyan-900 shadow-lg flex flex-col relative">
           <div className="relative h-20 w-full overflow-hidden">
@@ -187,19 +186,15 @@ const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack }) => {
             </div>
           ))}
         </div>
-        <textarea
-          className="w-full bg-black text-white text-xs font-mono text-center focus:outline-none placeholder:text-gray-400 mt-1 resize-none"
-          value={bio}
-          onChange={e => setBio(e.target.value)}
-          placeholder="Short professional bio"
-          rows={2}
-          maxLength={120}
-        />
         <div className="flex flex-col gap-2 mt-8">
-          {/* Codex and Settings buttons */}
+          {/* Modular Codex and Settings buttons with Greek/math icons */}
           <div className="flex flex-row gap-3 justify-center w-full mt-4">
-            <Link href="/codex" className="flex-1 py-2 rounded bg-gray-900 text-white font-semibold hover:bg-gray-700 transition text-center">Codex</Link>
-            <button className="flex-1 py-2 rounded bg-gray-900 text-white font-semibold hover:bg-gray-700 transition">Settings</button>
+            <Link href="/codex" className="flex-1 py-2 rounded text-white font-semibold hover:bg-gray-700 transition text-center flex items-center justify-center gap-2">
+              <span className="text-cyan-400 text-lg">Ψ</span> Codex
+            </Link>
+            <button className="flex-1 py-2 rounded text-white font-semibold hover:bg-gray-700 transition flex items-center justify-center gap-2">
+              <span className="text-yellow-400 text-lg">Σ</span> Settings
+            </button>
           </div>
         </div>
       </div>

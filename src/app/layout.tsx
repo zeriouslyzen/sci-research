@@ -6,9 +6,10 @@ import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import AccountPanel from './components/AccountPanel';
 import PreferencesPanel from './components/PreferencesPanel';
+import SidebarOpenButton from './components/SidebarOpenButton';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [sidebarView, setSidebarView] = React.useState<'main'|'account'|'preferences'>('main');
   const [theme, setTheme] = React.useState('auto');
   const [language, setLanguage] = React.useState('en');
@@ -21,15 +22,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     email: 'deshon@example.com',
   };
 
+  // Add effect to handle sidebar toggle event
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (window.innerWidth < 768) {
-        setSidebarOpen(false);
-      } else {
-        setSidebarOpen(true);
-      }
-    }
+    const handleToggleSidebar = (event: CustomEvent) => {
+      setSidebarOpen(event.detail);
+    };
+
+    window.addEventListener('toggleSidebar', handleToggleSidebar as EventListener);
+    return () => {
+      window.removeEventListener('toggleSidebar', handleToggleSidebar as EventListener);
+    };
   }, []);
+
+  React.useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname]);
 
   return (
     <html lang="en">
@@ -133,55 +140,96 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 `}</style>
       </head>
       <body className="bg-[#0A0A0A] text-[#E0E0E0] font-sans min-h-screen antialiased">
+        {/* Show sidebar open button on every page except /thesidia/interface */}
+        {pathname !== '/thesidia/interface' && (
+          <SidebarOpenButton visible={!sidebarOpen} onClick={() => setSidebarOpen(true)} />
+        )}
         {/* Slide-in Side Menu */}
         <aside
-          className={`fixed left-0 top-0 h-screen w-36 md:w-44 p-1 z-40 bg-black border-r border-white/10 transition-transform duration-300 ease-in-out
-            ${sidebarOpen ? 'translate-x-0 block' : '-translate-x-full hidden'} md:block`}
-          style={{ marginTop: '3.5rem' }}
+          className={`fixed left-0 top-0 h-screen w-36 md:w-44 p-1 z-40 bg-black/95 backdrop-blur-sm border-r border-white/10 transition-transform duration-300 ease-in-out
+            ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          style={{ marginTop: pathname === '/thesidia/interface' ? '0' : '3.5rem' }}
         >
-          {/* Sidebar toggle button */}
-          <button
-            className="absolute top-2 right-3 text-yellow-400 hover:text-white bg-transparent rounded-full p-1.5 z-50 focus:outline-none"
-            onClick={() => setSidebarOpen(false)}
-            aria-label="Hide menu"
-          >
-            <span className="w-6 h-6 flex items-center justify-center">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="cyberpunk-toggle">
-                <g filter="url(#glow-white)">
-                  <polyline className="chevron-left" points="10,8 2,16 10,24" stroke="#fff" strokeWidth="3" strokeLinejoin="round" fill="none"/>
-                  <polyline className="chevron-right" points="22,8 30,16 22,24" stroke="#fff" strokeWidth="3" strokeLinejoin="round" fill="none"/>
-                  <line className="slash" x1="16" y1="6" x2="16" y2="26" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-                </g>
-                <defs>
-                  <filter id="glow-white" x="-50%" y="-50%" width="200%" height="200%">
-                    <feDropShadow dx="0" dy="0" stdDeviation="1.5" floodColor="#fff" />
-                  </filter>
-                </defs>
-              </svg>
-            </span>
-          </button>
-          <nav className="mt-4">
-            <ul className="space-y-1 font-mono text-base">
-              <li><Link href="/" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Home</Link></li>
-              <li><Link href="/mission" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Mission</Link></li>
-              <li><Link href="/research" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Research</Link></li>
-              <li className="pt-2"><span className="text-xs text-gray-500">PHILOSOPHY</span></li>
-              <li><Link href="/nexus" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Nexus</Link></li>
-              <li><Link href="/impact" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Impact</Link></li>
-              <li className="pt-2"><span className="text-xs text-gray-500">PROJECTS</span></li>
-              <li><Link href="/thesidia" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Thesidia</Link></li>
-              <li><Link href="/katana" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Katana</Link></li>
-              <li><Link href="/myth0s" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Myth0s</Link></li>
-              <li className="pt-2"><span className="text-xs text-gray-500">RESOURCES</span></li>
-              <li><Link href="/metrics" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Metrics</Link></li>
-              <li><Link href="/api_arc" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>API ARC</Link></li>
-              <li><Link href="/safety" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Safety</Link></li>
-              <li><Link href="/news" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>News</Link></li>
-              <li className="pt-2"><span className="text-xs text-gray-500">SYMBOLIC NETWORK</span></li>
-              <li><button onClick={() => setSidebarView('account')} className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">My Space</button></li>
-              <li><Link href="/visions" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Visions</Link></li>
-              <li><Link href="/codex" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" onClick={() => setSidebarOpen(false)}>Codex</Link></li>
-            </ul>
+          {/* SCI Logo for interface */}
+          {pathname === '/thesidia/interface' && (
+            <div className="px-2 py-3 border-b border-white/10">
+              <button 
+                onClick={() => {
+                  console.log('SCI Research button clicked');
+                  setSidebarOpen(true);
+                  console.log('sidebarOpen:', true);
+                }}
+                className="w-full text-left focus:outline-none"
+                aria-label="Open sidebar"
+              >
+                <div className="flex flex-col items-start">
+                  <span className="text-white font-extrabold text-sm tracking-widest font-[Share Tech Mono,monospace] animate-glow leading-tight">SCI</span>
+                  <span className="text-white text-[8px] font-[Share Tech Mono,monospace] tracking-widest animate-glow leading-tight">Research</span>
+                </div>
+              </button>
+            </div>
+          )}
+          <nav className={(pathname === '/thesidia/interface' ? 'mt-16' : 'mt-4') + ' h-full overflow-y-auto scrollbar-none'}>
+            {pathname === '/thesidia/interface' ? (
+              <ul className="space-y-1 font-mono text-xs">
+                <li className="pt-2"><span className="text-[10px] text-gray-500">QUEST</span></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link flex items-center gap-2">
+                  <span className="text-yellow-400">∑</span> New Quest
+                </button></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link flex items-center gap-2">
+                  <span className="text-green-400">∎</span> Completed
+                </button></li>
+                <li><Link href="/codex" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link flex items-center gap-2">
+                  <span className="text-cyan-400">⌖</span> Codex
+                </Link></li>
+                
+                <li className="pt-4"><span className="text-[10px] text-gray-500">MODELS</span></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link flex items-center gap-2">
+                  <span className="text-purple-400">λ</span> Katana
+                </button></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link flex items-center gap-2">
+                  <span className="text-blue-400">Ψ</span> Myth0s
+                </button></li>
+
+                <li className="pt-4"><span className="text-[10px] text-gray-500">RECENT QUESTS</span></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white/70 hover:text-white rounded transition-colors fragment-link text-[10px] truncate flex items-center gap-2">
+                  <span className="text-yellow-400/70">⌖</span> Analyze quantum...
+                </button></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white/70 hover:text-white rounded transition-colors fragment-link text-[10px] truncate flex items-center gap-2">
+                  <span className="text-yellow-400/70">⌖</span> Generate neural...
+                </button></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white/70 hover:text-white rounded transition-colors fragment-link text-[10px] truncate flex items-center gap-2">
+                  <span className="text-yellow-400/70">⌖</span> Optimize algo...
+                </button></li>
+
+                <li className="pt-4"><span className="text-[10px] text-gray-500">PLANS</span></li>
+                <li><button className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link flex items-center gap-2">
+                  <span className="text-yellow-400">∞</span> Upgrade
+                </button></li>
+              </ul>
+            ) : (
+              <ul className="space-y-1 font-mono text-base">
+                <li><Link href="/" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Home</Link></li>
+                <li><Link href="/mission" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Mission</Link></li>
+                <li><Link href="/research" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Research</Link></li>
+                <li className="pt-2"><span className="text-xs text-gray-500">PHILOSOPHY</span></li>
+                <li><Link href="/nexus" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Nexus</Link></li>
+                <li><Link href="/impact" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Impact</Link></li>
+                <li className="pt-2"><span className="text-xs text-gray-500">PROJECTS</span></li>
+                <li><Link href="/thesidia" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Thesidia</Link></li>
+                <li><Link href="/katana" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Katana</Link></li>
+                <li><Link href="/myth0s" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Myth0s</Link></li>
+                <li className="pt-2"><span className="text-xs text-gray-500">RESOURCES</span></li>
+                <li><Link href="/metrics" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Metrics</Link></li>
+                <li><Link href="/api_arc" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">API ARC</Link></li>
+                <li><Link href="/safety" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Safety</Link></li>
+                <li><Link href="/news" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">News</Link></li>
+                <li className="pt-2"><span className="text-xs text-gray-500">SYMBOLIC NETWORK</span></li>
+                <li><button onClick={() => setSidebarView('account')} className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">My Space</button></li>
+                <li><Link href="/visions" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Visions</Link></li>
+                <li><Link href="/codex" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Codex</Link></li>
+              </ul>
+            )}
           </nav>
         </aside>
         {/* Sidebar slide panels */}
@@ -214,31 +262,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </motion.div>
           )}
         </AnimatePresence>
-        {/* Floating show-sidebar button */}
-        {!sidebarOpen && (
-          <button
-            className="fixed top-20 left-3 z-50 bg-transparent text-yellow-400 rounded-full p-2 focus:outline-none"
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Show menu"
-          >
-            <span className="w-7 h-7 flex items-center justify-center">
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="cyberpunk-toggle">
-                <g filter="url(#glow-white)">
-                  <polyline className="chevron-left" points="12,10 4,18 12,26" stroke="#fff" strokeWidth="3" strokeLinejoin="round" fill="none"/>
-                  <polyline className="chevron-right" points="24,10 32,18 24,26" stroke="#fff" strokeWidth="3" strokeLinejoin="round" fill="none"/>
-                  <line className="slash" x1="18" y1="8" x2="18" y2="28" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-                </g>
-                <defs>
-                  <filter id="glow-white" x="-50%" y="-50%" width="200%" height="200%">
-                    <feDropShadow dx="0" dy="0" stdDeviation="1.5" floodColor="#fff" />
-                  </filter>
-                </defs>
-              </svg>
-            </span>
-          </button>
-        )}
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-white/10">
+        <header className={`fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-white/10 ${pathname === '/thesidia/interface' ? 'hidden md:block' : ''}`}>
           <div className="px-4 py-2 flex items-center justify-between gap-4">
             <div className="flex items-center">
               <div className="flex flex-col items-start">
@@ -324,14 +349,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </footer>
         </div>
-        {/* Overlay for mobile menu */}
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-            aria-label="Close menu overlay"
-          />
-        )}
       </body>
     </html>
   );

@@ -12,6 +12,7 @@ export default function HomepageVisuals({}: HomepageVisualsProps) {
 
   useEffect(() => {
     const scene: THREE.Scene = new THREE.Scene();
+    scene.background = null; // Make scene background transparent
     const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({ alpha: true });
     let animationId: number;
@@ -43,13 +44,18 @@ export default function HomepageVisuals({}: HomepageVisualsProps) {
     }
     const starGeometry = new THREE.BufferGeometry();
     starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-    const stars: THREE.Points = new THREE.Points(starGeometry, new THREE.PointsMaterial({ color: 0x555555, size: 0.1 }));
+    const stars: THREE.Points = new THREE.Points(starGeometry, new THREE.PointsMaterial({ 
+      color: 0xffffff, 
+      size: 0.5,
+      transparent: true,
+      opacity: 0.8
+    }));
     scene.add(stars);
 
     // Lattice (outer cube)
     const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
     const edges = new THREE.EdgesGeometry(geometry);
-    const lattice: THREE.LineSegments = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
+    const lattice: THREE.LineSegments = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: false, opacity: 1 }));
     (lattice.geometry as THREE.BufferGeometry).setAttribute('initialPosition', lattice.geometry.getAttribute('position').clone());
     // Inner lattice
     const innerLattice = lattice.clone();
@@ -134,7 +140,7 @@ export default function HomepageVisuals({}: HomepageVisualsProps) {
   return (
     <div
       ref={mountRef}
-      style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 10 }}
+      style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 10, pointerEvents: 'none' }}
     />
   );
 } 
