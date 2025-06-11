@@ -69,6 +69,11 @@ export default function ResonancePrompt({ onEngage, visible = true }: {
     }, 600);
   }
 
+  function handleNormalExperience() {
+    setPhase('Neutral'); // Set to Neutral phase
+    close();
+  }
+
   function handlePhaseSelect(idx: number) {
     if (isTransitioning) return;
     
@@ -161,15 +166,24 @@ export default function ResonancePrompt({ onEngage, visible = true }: {
                 <span className="text-[10px] text-cyan-300 font-mono">Systems Online</span>
               </div>
             </div>
-            <button
-              ref={buttonRef}
-              className={`text-xs text-cyan-300 hover:text-white bg-transparent px-4 py-2 rounded-full border border-cyan-400/60 hover:border-white transition-all duration-200 ${activeIdx === null ? 'opacity-50 cursor-not-allowed' : ''}`}
-              onClick={() => activeIdx !== null && close()}
-              tabIndex={0}
-              disabled={activeIdx === null}
-            >
-              Enter
-            </button>
+            <div className="flex gap-3">
+              <button
+                ref={buttonRef}
+                className={`text-xs text-cyan-300 hover:text-white bg-transparent px-4 py-2 rounded-full border border-cyan-400/60 hover:border-white transition-all duration-200 ${activeIdx === null ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={() => activeIdx !== null && close()}
+                tabIndex={0}
+                disabled={activeIdx === null}
+              >
+                Enter
+              </button>
+              <button
+                className="text-xs text-cyan-300 hover:text-white bg-transparent px-4 py-2 rounded-full border border-cyan-400/60 hover:border-white transition-all duration-200"
+                onClick={handleNormalExperience}
+                tabIndex={0}
+              >
+                Normal Experience
+              </button>
+            </div>
           </div>
         </div>
       </div>
