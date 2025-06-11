@@ -105,7 +105,6 @@ export default function ThesidiaInterfacePage() {
     { role: 'system', content: 'Your symbolic responses will appear here.' }
   ]);
   const [input, setInput] = useState('');
-  const [mode, setMode] = useState<string | null>(null);
   const [glitchIndex, setGlitchIndex] = useState<number | null>(null);
   const [pulse, setPulse] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -190,7 +189,9 @@ export default function ThesidiaInterfacePage() {
       <div className="flex-1 flex flex-col w-full relative overflow-hidden">
         <div className="flex-1 overflow-y-auto px-4 pb-32 pt-8 bg-black/70">
           <div className="mb-8">
-            <CategoryGrid onSelect={setMode} />
+            <CategoryGrid onSelect={(selectedMode) => {
+              setMessages(prev => [...prev, { role: 'system', content: `Mode selected: ${selectedMode}` }]);
+            }} />
           </div>
           {messages.map((msg, i) => (
             <div key={i} className={`mb-3 flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
