@@ -41,7 +41,7 @@ export default function PhaseSelector({ showRecursion = false, onSelect }: Phase
           onClick={() => handleSelect(p.key)}
           className={`flex flex-col items-center px-3 py-2 rounded-lg border transition-all duration-200 font-mono text-xs select-none focus:outline-none
             ${phase === p.key
-              ? `${theme.border} ${theme.glow} bg-white/10 text-cyan-200 scale-105`
+              ? `${theme.borderClass} ${theme.animationClass} bg-white/10 text-cyan-200 scale-105`
               : 'border-gray-700 bg-black/60 text-gray-400 hover:border-cyan-400 hover:text-cyan-200 hover:bg-cyan-900/20'}
           `}
         >
