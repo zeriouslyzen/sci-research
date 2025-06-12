@@ -10,11 +10,11 @@ import SidebarOpenButton from './components/SidebarOpenButton';
 import { PhaseEffectProvider } from './components/PhaseEffectProvider';
 import PhaseShiftContainer from './components/PhaseShiftContainer';
 import PhaseBadge from './components/PhaseBadge';
-import AmbientSoundSystem from './components/AmbientSoundSystem';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [sidebarView, setSidebarView] = React.useState<'main'|'account'|'preferences'>('main');
+  const [activeSection, setActiveSection] = React.useState<string>('home');
   const [theme, setTheme] = React.useState('auto');
   const [language, setLanguage] = React.useState('en');
   const pathname = usePathname();
@@ -37,10 +37,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       window.removeEventListener('toggleSidebar', handleToggleSidebar as EventListener);
     };
   }, []);
-
-  React.useEffect(() => {
-    setSidebarOpen(false);
-  }, [pathname]);
 
   return (
     <PhaseEffectProvider>
@@ -215,70 +211,203 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </ul>
                 ) : (
                   <ul className="space-y-1 font-mono text-base">
-                    <li className="flex items-center justify-between w-full">
-                      <Link href="/" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Home</Link>
-                      <Link href="/codex" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link" aria-label="Codex">{'</>'}</Link>
-                    </li>
-                    <li><Link href="/mission" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Mission</Link></li>
-                    <li><Link href="/research" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Research</Link></li>
-                    <li className="pt-2"><span className="text-xs text-gray-500">PHILOSOPHY</span></li>
-                    <li><Link href="/nexus" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Nexus</Link></li>
-                    <li><Link href="/impact" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Impact</Link></li>
-                    <li className="pt-2"><span className="text-xs text-gray-500">PROJECTS</span></li>
-                    <li><Link href="/thesidia" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Thesidia</Link></li>
-                    <li><Link href="/katana" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Katana</Link></li>
-                    <li><Link href="/myth0s" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Myth0s</Link></li>
-                    <li className="pt-2"><span className="text-xs text-gray-500">RESOURCES</span></li>
-                    <li><Link href="/metrics" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Metrics</Link></li>
-                    <li><Link href="/api_arc" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">API ARC</Link></li>
-                    <li><Link href="/safety" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Safety</Link></li>
-                    <li><Link href="/news" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">News</Link></li>
-                    <li className="pt-2"><span className="text-xs text-gray-500">SYMBOLIC NETWORK</span></li>
-                    <li><button onClick={() => setSidebarView('account')} className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">My Space</button></li>
-                    <li><Link href="/visions" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Visions</Link></li>
-                    <li><Link href="/codex" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Codex</Link></li>
+                    {activeSection === 'home' ? (
+                      <>
+                        <li className="flex items-center justify-between w-full">
+                          <Link 
+                            href="/models" 
+                            onClick={() => setActiveSection('models')}
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link"
+                          >
+                            Models
+                          </Link>
+                          <button
+                            onClick={() => setSidebarOpen(false)}
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link"
+                            aria-label="Close sidebar"
+                            type="button"
+                          >
+                            {'</>'}
+                          </button>
+                        </li>
+                        <li>
+                          <Link 
+                            href="/mission" 
+                            onClick={() => setActiveSection('mission')}
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link"
+                          >
+                            Mission
+                          </Link>
+                        </li>
+                        <li>
+                          <Link 
+                            href="/research" 
+                            onClick={() => setActiveSection('research')}
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link"
+                          >
+                            Research
+                          </Link>
+                        </li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">PHILOSOPHY</span></li>
+                        <li><Link href="/nexus" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Nexus</Link></li>
+                        <li>
+                          <Link 
+                            href="/impact" 
+                            onClick={() => setActiveSection('impact')}
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link"
+                          >
+                            Impact
+                          </Link>
+                        </li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">PROJECTS</span></li>
+                        <li><Link href="/thesidia" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Thesidia</Link></li>
+                        <li><Link href="/katana" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Katana</Link></li>
+                        <li><Link href="/myth0s" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Myth0s</Link></li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">RESOURCES</span></li>
+                        <li><Link href="/metrics" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Metrics</Link></li>
+                        <li><Link href="/api_arc" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">API ARC</Link></li>
+                        <li>
+                          <Link 
+                            href="/safety" 
+                            onClick={() => setActiveSection('safety')}
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link"
+                          >
+                            Safety
+                          </Link>
+                        </li>
+                        <li><Link href="/news" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">News</Link></li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">SYMBOLIC NETWORK</span></li>
+                        <li><button onClick={() => setSidebarView('account')} className="w-full text-left py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">My Space</button></li>
+                        <li><Link href="/visions" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Visions</Link></li>
+                        <li><Link href="/codex" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Codex</Link></li>
+                      </>
+                    ) : activeSection === 'models' ? (
+                      <>
+                        <li>
+                          <button 
+                            onClick={() => setActiveSection('home')} 
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link text-left w-full"
+                          >
+                            ← Back
+                          </button>
+                        </li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">MODELS</span></li>
+                        <li><Link href="/models/aam" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Axiomatic Alignment (AAM)</Link></li>
+                        <li><Link href="/models/arm" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Axiomatic Resolution (ARM)</Link></li>
+                      </>
+                    ) : activeSection === 'mission' ? (
+                      <>
+                        <li>
+                          <button 
+                            onClick={() => setActiveSection('home')} 
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link text-left w-full"
+                          >
+                            ← Back
+                          </button>
+                        </li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">MISSION</span></li>
+                        <li><Link href="/mission/energy" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Energy</Link></li>
+                        <li><Link href="/mission/language" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Language</Link></li>
+                        <li><Link href="/mission/governance" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Governance</Link></li>
+                        <li><Link href="/mission/foundational-science" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Foundational Science</Link></li>
+                        <li><Link href="/mission/logistics-and-agriculture" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Logistics & Agriculture</Link></li>
+                        <li><Link href="/mission/humanitarian-pursuits" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Humanitarian Pursuits</Link></li>
+                      </>
+                    ) : activeSection === 'research' ? (
+                      <>
+                        <li>
+                          <button 
+                            onClick={() => setActiveSection('home')} 
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link text-left w-full"
+                          >
+                            ← Back
+                          </button>
+                        </li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">RESEARCH</span></li>
+                        <li><Link href="/research/publications" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Publications</Link></li>
+                        <li><Link href="/research/international" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">International</Link></li>
+                        <li><Link href="/research/recent-papers" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Recent Papers</Link></li>
+                      </>
+                    ) : activeSection === 'impact' ? (
+                      <>
+                        <li>
+                          <button 
+                            onClick={() => setActiveSection('home')} 
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link text-left w-full"
+                          >
+                            ← Back
+                          </button>
+                        </li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">IMPACT</span></li>
+                        <li><Link href="/impact/beyond-automation" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Beyond Automation</Link></li>
+                        <li><Link href="/impact/phase-transition" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">The Phase Transition for Society</Link></li>
+                        <li><Link href="/impact/cognitive-sovereignty" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Preparing for Cognitive Sovereignty</Link></li>
+                      </>
+                    ) : activeSection === 'safety' ? (
+                      <>
+                        <li>
+                          <button 
+                            onClick={() => setActiveSection('home')} 
+                            className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link text-left w-full"
+                          >
+                            ← Back
+                          </button>
+                        </li>
+                        <li className="pt-2"><span className="text-xs text-gray-500">SAFETY</span></li>
+                        <li><Link href="/safety/human-oversight" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Human Oversight</Link></li>
+                        <li><Link href="/safety/foundational-alignment" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Foundational Alignment</Link></li>
+                        <li><Link href="/safety/transparent-reasoning" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Transparent Reasoning</Link></li>
+                        <li><Link href="/safety/data-privacy" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Data Privacy & Security</Link></li>
+                        <li><Link href="/safety/intrinsic-containment" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Intrinsic Containment & Override</Link></li>
+                        <li><Link href="/safety/misuse-prevention" className="block py-1.5 px-2 text-white hover:text-white rounded transition-colors fragment-link">Misuse Prevention & Monitoring</Link></li>
+                      </>
+                    ) : null}
                   </ul>
                 )}
               </nav>
             </aside>
             {/* Sidebar slide panels */}
             <AnimatePresence>
-              {sidebarOpen && sidebarView !== 'main' && (
-                <motion.div
-                  key={sidebarView}
-                  initial={{ x: -200, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: -200, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="fixed left-0 top-20 mt-0 h-[calc(100vh-5rem)] w-72 md:w-80 p-0 z-[60] bg-black border-r border-white/10 rounded-b-2xl shadow-xl"
-                  style={{ pointerEvents: 'auto' }}
-                >
-                  {sidebarView === 'account' && (
-                    <AccountPanel
-                      user={user}
-                      onBack={() => setSidebarView('main')}
-                    />
+              {sidebarOpen && (
+                <>
+                  {sidebarView !== 'main' && (
+                    <motion.div
+                      key={sidebarView}
+                      initial={{ x: -200, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={{ x: -200, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="fixed left-0 top-20 mt-0 h-[calc(100vh-5rem)] w-72 md:w-80 p-0 z-[60] bg-black border-r border-white/10 rounded-b-2xl shadow-xl"
+                      style={{ pointerEvents: 'auto' }}
+                    >
+                      {sidebarView === 'account' && (
+                        <AccountPanel
+                          user={user}
+                          onBack={() => setSidebarView('main')}
+                        />
+                      )}
+                      {sidebarView === 'preferences' && (
+                        <PreferencesPanel
+                          theme={theme}
+                          setTheme={setTheme}
+                          language={language}
+                          setLanguage={setLanguage}
+                          onBack={() => setSidebarView('main')}
+                        />
+                      )}
+                    </motion.div>
                   )}
-                  {sidebarView === 'preferences' && (
-                    <PreferencesPanel
-                      theme={theme}
-                      setTheme={setTheme}
-                      language={language}
-                      setLanguage={setLanguage}
-                      onBack={() => setSidebarView('main')}
-                    />
-                  )}
-                </motion.div>
+                </>
               )}
             </AnimatePresence>
             {/* Header */}
             <header className={`fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-white/10 ${pathname === '/thesidia/interface' ? 'hidden md:block' : ''}`}>
               <div className="px-4 py-2 flex items-center justify-between gap-4">
                 <div className="flex items-center">
-                  <div className="flex flex-col items-start">
+                  <Link href="/" className="flex flex-col items-start">
                     <span className="text-white font-extrabold text-2xl tracking-widest font-[Share Tech Mono,monospace] animate-glow leading-tight">SCI</span>
                     <span className="text-white text-xs font-[Share Tech Mono,monospace] tracking-widest animate-glow leading-tight">Research</span>
-                  </div>
+                  </Link>
                 </div>
                 <div className="flex-1 flex justify-center px-2 max-w-md mx-auto">
                   <form className="relative w-full">
@@ -364,7 +493,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </footer>
             </div>
           </PhaseShiftContainer>
-          <AmbientSoundSystem />
         </body>
       </html>
     </PhaseEffectProvider>

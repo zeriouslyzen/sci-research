@@ -192,9 +192,9 @@ const AccountPanel: React.FC<AccountPanelProps> = ({ user, onBack }) => {
             <Link href="/codex" className="flex-1 py-2 rounded text-white font-semibold hover:bg-gray-700 transition text-center flex items-center justify-center gap-2">
               <span className="text-cyan-400 text-lg">Ψ</span> Codex
             </Link>
-            <button className="flex-1 py-2 rounded text-white font-semibold hover:bg-gray-700 transition flex items-center justify-center gap-2">
-              <span className="text-yellow-400 text-lg">Σ</span> Settings
-            </button>
+            <Link href="/settings" className="flex-1 py-2 rounded text-white font-semibold hover:bg-gray-700 transition flex items-center justify-center gap-2">
+              <span className="text-cyan-400 text-lg">⌖</span> System Config
+            </Link>
           </div>
         </div>
       </div>
