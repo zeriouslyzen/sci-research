@@ -19,7 +19,9 @@ interface PhaseSelectorProps {
 export default function PhaseSelector({ showRecursion = false, onSelect }: PhaseSelectorProps) {
   const { phase, setPhase } = usePhaseContext();
   const { theme } = usePhaseTheme();
-  const phases = showRecursion ? [...PHASES, { key: 'Recursion', glyph: '🌀', label: 'Recursion', tooltip: 'Enter Recursion Phase' }] : PHASES;
+  const phases = showRecursion 
+    ? [...PHASES, { key: 'Recursion', glyph: '🌀', label: 'Recursion', tooltip: 'Enter Recursion Phase' }] 
+    : PHASES;
 
   function handleSelect(p: string) {
     const phaseKey = p as PhaseType;

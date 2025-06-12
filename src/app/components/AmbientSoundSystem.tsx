@@ -6,29 +6,53 @@ const THETA_SOUND = '/sounds/theta.mp3';
 export default function AmbientSoundSystem() {
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.3); // Lower default volume for theta
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Initialize audio element
   useEffect(() => {
+    console.log("Initializing audio...");
     audioRef.current = new Audio(THETA_SOUND);
     audioRef.current.loop = true;
     audioRef.current.volume = volume;
 
-    // Start playing when component mounts
-    const playPromise = audioRef.current.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(error => {
-        console.log("Audio playback failed:", error);
-      });
-    }
+    // Add event listeners for debugging
+    audioRef.current.addEventListener('playing', () => {
+      console.log("Audio started playing");
+      setIsPlaying(true);
+    });
+
+    audioRef.current.addEventListener('error', (e) => {
+      console.error("Audio error:", e);
+    });
 
     return () => {
+      console.log("Cleaning up audio...");
       audioRef.current?.pause();
     };
   }, []);
 
+  // Start playing on first user interaction
+  const startPlaying = async () => {
+    if (!audioRef.current || isPlaying) return;
+    
+    try {
+      console.log("Attempting to play audio...");
+      await audioRef.current.play();
+      console.log("Audio play promise resolved");
+    } catch (error) {
+      console.error("Failed to play audio:", error);
+    }
+  };
+
   // Toggle mute
   const toggleMute = () => {
+    if (!isPlaying) {
+      startPlaying();
+      return;
+    }
+    
+    console.log("Toggling mute:", !isMuted);
     setIsMuted(!isMuted);
     if (audioRef.current) {
       audioRef.current.muted = !isMuted;
@@ -37,6 +61,7 @@ export default function AmbientSoundSystem() {
 
   // Adjust volume
   const adjustVolume = (newVolume: number) => {
+    console.log("Adjusting volume:", newVolume);
     setVolume(newVolume);
     if (audioRef.current) {
       audioRef.current.volume = newVolume;
@@ -48,9 +73,9 @@ export default function AmbientSoundSystem() {
       <button
         onClick={toggleMute}
         className="p-2 text-cyan-400 hover:text-cyan-200 transition-colors"
-        title={isMuted ? 'Unmute' : 'Mute'}
+        title={isMuted ? 'Unmute' : isPlaying ? 'Mute' : 'Play Sound'}
       >
-        {isMuted ? '🔇' : '🔊'}
+        {isMuted ? '🔇' : isPlaying ? '🔊' : '▶️'}
       </button>
       <input
         type="range"
