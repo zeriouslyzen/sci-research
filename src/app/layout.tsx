@@ -140,7 +140,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 `}</style>
         </head>
-        <body className="bg-[#0A0A0A] text-[#E0E0E0] font-sans min-h-screen antialiased">
+        <body className="bg-[#0A0A0A] text-[#E0E0E0] font-sans min-h-screen antialiased p-3 sm:p-6 w-full">
           <PhaseShiftContainer>
             {/* Show sidebar open button on every page except /thesidia/interface */}
             {pathname !== '/thesidia/interface' && (

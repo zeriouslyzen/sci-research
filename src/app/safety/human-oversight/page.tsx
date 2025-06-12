@@ -11,11 +11,11 @@ const comparisonData = [
 
 export default function HumanOversight() {
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="min-h-screen bg-black text-white p-3 sm:p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-5xl mx-auto"
+        className="max-w-5xl mx-auto w-full"
       >
         {/* Header Section */}
         <div className="mb-16">
@@ -38,13 +38,13 @@ export default function HumanOversight() {
         </div>
 
         {/* Metrics and Chart */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-12 mb-16 w-full">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <div className="border border-white/10 p-8">
+            <div className="border border-white/10 p-4 sm:p-8 w-full">
               <h2 className="text-xl font-mono font-bold mb-6">Security Metrics</h2>
               <div className="space-y-4 text-sm text-gray-400 font-mono">
                 <div>Oversight Coverage: <span className="text-white font-bold">100%</span></div>
@@ -62,10 +62,10 @@ export default function HumanOversight() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <div className="border border-white/10 p-8 flex flex-col items-center">
+            <div className="border border-white/10 p-4 sm:p-8 flex flex-col items-center w-full overflow-x-auto">
               <h2 className="text-xl font-mono font-bold mb-6">Security Performance</h2>
               {/* Simple SVG Bar Chart */}
-              <svg width="260" height="120" viewBox="0 0 260 120" className="mb-2">
+              <svg width="100%" height="120" viewBox="0 0 260 120" className="mb-2 w-full max-w-xs sm:max-w-sm md:max-w-md h-auto">
                 <rect x="20" y="20" width="30" height="80" fill="#fff" fillOpacity="0.8" />
                 <rect x="70" y="30" width="30" height="70" fill="#fff" fillOpacity="0.6" />
                 <rect x="120" y="40" width="30" height="60" fill="#fff" fillOpacity="0.5" />
@@ -87,7 +87,7 @@ export default function HumanOversight() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="border border-white/10 p-8 mb-16"
+          className="border border-white/10 p-4 sm:p-8 mb-16 w-full overflow-x-auto"
         >
           <h2 className="text-xl font-mono font-bold mb-6">Research Details & Use Cases</h2>
           <div className="space-y-8">
@@ -121,11 +121,11 @@ export default function HumanOversight() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="border border-white/10 p-8"
+          className="border border-white/10 p-4 sm:p-8 mb-16 w-full overflow-x-auto"
         >
           <h2 className="text-xl font-mono font-bold mb-6">Security Model Comparison</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-xs font-mono text-gray-300 border-collapse">
+          <div className="overflow-x-auto w-full">
+            <table className="min-w-full w-full text-xs font-mono text-gray-300 border-collapse">
               <thead>
                 <tr className="border-b border-white/10">
                   <th className="p-2 text-left">Model</th>
